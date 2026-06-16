@@ -1,9 +1,6 @@
 package com.example.visa_tracking_dj.Entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,6 +16,9 @@ public class AgencyRating {
     private Integer ratingId;
 
     //agency id
+    @ManyToOne
+    @JoinColumn(name="agency_id", nullable=false)
+    private Agency agencyId;
 
     private Integer score;
     private String comments;
