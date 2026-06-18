@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class AgencyRating {
+public class AgencyRatingEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,7 +18,7 @@ public class AgencyRating {
     //agency id
     @ManyToOne
     @JoinColumn(name="agency_id", nullable=false)
-    private Agency agencyId;
+    private AgencyEntity agencyId;
 
     private Integer score;
     private String comments;

@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Agency {
+public class AgencyEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

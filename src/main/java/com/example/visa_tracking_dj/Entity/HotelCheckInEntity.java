@@ -11,7 +11,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class HotelCheckIn {
+public class HotelCheckInEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,7 +20,7 @@ public class HotelCheckIn {
     //hotel id
     @ManyToOne
     @JoinColumn(name="hotel_Id", nullable = false)
-    private Hotel hotelId;
+    private HotelEntity hotelId;
 
     private Date checkInDate;
 
