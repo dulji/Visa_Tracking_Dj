@@ -10,6 +10,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@RestController
+@RequestMapping("/api/agencies")
+@RequiredArgsConstructor
 public class AgencyController {
 
     @Autowired
@@ -43,13 +46,23 @@ public class AgencyController {
             @RequestBody AgencyDto agencyDto,
             @RequestParam(value = "pageNo", defaultValue = "0", required = false)int pageNo,
             @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize,
-            @RequestParam(value = "sortBy", defaultValue="agencyName", required = false) String sortBy,
+            @RequestParam(value = "sortBy", defaultValue = "agencyName", required = false) String sortBy,
             @RequestParam(value = "sortDir", defaultValue = "asc", required = false) String sortDir
+    ) {
+        Page<AgencyDto> agencies = agencyService.getAllAgencies(pageNo, pageSize, sortBy, sortDir);
+        return ResponseEntity.ok(agencies);
+    }
 
     ){
         Page<AgencyEntity> updatedAgenciesPage = agencyService.createAgency(agencyDto, pageNo, pageSize, sortBy, sortDir);
 
-        return new ResponseEntity<>(updatedAgenciesPage, HttpStatus.CREATED);
+    @PutMapping("/{id}")
+    public ResponseEntity<AgencyDto> updateAgency(
+            @PathVariable Integer id,
+            @RequestBody AgencyDto agencyDto
+    ) {
+        AgencyDto updatedAgency = agencyService.updateAgency(id, agencyDto);
+        return ResponseEntity.ok(updatedAgency);
     }
 
     @PutMapping("/{id}")

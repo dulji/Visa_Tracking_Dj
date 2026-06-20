@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AgencyDto {
-        private String agencyId;
+        private Integer agencyId;
         private String agencyName;
         private Integer licenseNumber;
         private Boolean status;
