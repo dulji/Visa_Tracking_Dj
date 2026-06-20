@@ -16,7 +16,7 @@ public class AgencyEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String agencyId;
+    private Integer agencyId;
     private String agencyName;
     private Integer licenseNumber;
     private Boolean status;
