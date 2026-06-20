@@ -7,10 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AgencyDto {
-        private Integer agencyId;
-        private String agencyName;
-        private Integer licenseNumber;
-        private Boolean status;
-
+public class HotelDto {
+    private Integer hotelId;
+    private Integer registrationNumber;
 }

@@ -7,10 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AgencyDto {
-        private Integer agencyId;
-        private String agencyName;
-        private Integer licenseNumber;
-        private Boolean status;
-
+public class AgencyRatingDto {
+    private Integer ratingId;
+    private Integer agencyId;
+    private Integer score;
+    private String comments;
 }
