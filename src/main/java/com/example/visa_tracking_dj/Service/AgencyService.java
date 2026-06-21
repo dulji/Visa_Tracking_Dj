@@ -68,7 +68,7 @@ public class AgencyService{
         AgencyEntity entityToSave = convertToEntity(agencyDto);
         agencyRepository.save(entityToSave);
 
-//        return getAllAgencies(pageNo, pageSize, sortBy, sortDir);
+        return getAllAgencies(pageNo, pageSize, sortBy, sortDir);
     }
 
     public Page<AgencyDto> updateAgency(Integer agencyId, AgencyDto agencyDto, int pageNo, int pageSize, String sortBy, String sortDir){
@@ -80,7 +80,7 @@ public class AgencyService{
 
         agencyRepository.save(existingAgency);
 
-//        return getAllAgencies(pageNo, pageSize, sortBy, sortDir);
+        return getAllAgencies(pageNo, pageSize, sortBy, sortDir);
     }
 
     public Page<AgencyDto> deleteAgency(Integer agencyId, int pageNo, int pageSize, String sortBy, String sortDir) {
@@ -92,6 +92,7 @@ public class AgencyService{
 
         agencyRepository.deleteById(agencyId);
 
+        return getAllAgencies(pageNo, pageSize, sortBy, sortDir);
     }
 
 
