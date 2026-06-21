@@ -12,8 +12,12 @@ import org.springframework.web.bind.annotation.*;
 
 public class AgencyController {
 
-    @Autowired
+
     private final AgencyService agencyService;
+
+    public AgencyController(AgencyService agencyService){
+        this.agencyService = agencyService;
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<AgencyDto> getAgencyByIs(@PathVariable("id") Integer agencyId){
@@ -47,7 +51,7 @@ public class AgencyController {
             @RequestParam(value = "sortDir", defaultValue = "asc", required = false) String sortDir
 
     ){
-        Page<AgencyEntity> updatedAgenciesPage = agencyService.createAgency(agencyDto, pageNo, pageSize, sortBy, sortDir);
+        Page<AgencyDto> updatedAgenciesPage = agencyService.createAgency(agencyDto, pageNo, pageSize, sortBy, sortDir);
 
         return new ResponseEntity<>(updatedAgenciesPage, HttpStatus.CREATED);
     }
@@ -76,7 +80,7 @@ public class AgencyController {
     ){
         Page<AgencyDto> updatedPage = agencyService.deleteAgency(agencyId, pageNo, pageSize, sortBy, sortDir);
         return ResponseEntity.ok(updatedPage);
-0    }
+    }
 }
 
 
