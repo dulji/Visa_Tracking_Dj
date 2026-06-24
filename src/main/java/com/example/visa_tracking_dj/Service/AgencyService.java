@@ -93,6 +93,7 @@ public class AgencyService{
         agencyRepository.deleteById(agencyId);
         return getAllAgencies(pageNo, pageSize, sortBy, sortDir);
 
+        return getAllAgencies(pageNo, pageSize, sortBy, sortDir);
     }
 
 

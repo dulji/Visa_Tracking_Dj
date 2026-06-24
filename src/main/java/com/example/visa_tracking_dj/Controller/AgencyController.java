@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.*;
 
 public class AgencyController {
 
-
-    private final AgencyService agencyService;
+    @Autowired
+    private AgencyService agencyService;
 
     public AgencyController(AgencyService agencyService){
         this.agencyService = agencyService;
@@ -80,7 +80,7 @@ public class AgencyController {
     ){
         Page<AgencyDto> updatedPage = agencyService.deleteAgency(agencyId, pageNo, pageSize, sortBy, sortDir);
         return ResponseEntity.ok(updatedPage);
-    }
+   }
 }
 
 
