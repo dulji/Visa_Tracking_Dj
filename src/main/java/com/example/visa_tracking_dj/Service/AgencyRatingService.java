@@ -75,6 +75,8 @@ public class AgencyRatingService {
         existingEntity.setScore(dto.getScore());
         existingEntity.setComments(dto.getComments());
 
+        return getAllRatings(pageNo, pageSize, sortBy, sortDir);
+
     }
 
     public Page<AgencyRatingDto> deleteRating(Integer ratingId, int pageNo, int pageSize, String sortBy, String sortDir){

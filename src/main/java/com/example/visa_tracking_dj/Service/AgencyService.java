@@ -85,7 +85,7 @@ public class AgencyService{
 
     public Page<AgencyDto> deleteAgency(Integer agencyId, int pageNo, int pageSize, String sortBy, String sortDir) {
 
-        if(!agencyRepository.existsById(agencyId)){
+        if (!agencyRepository.existsById(agencyId)) {
             throw new RuntimeException("Cannot delete, agency with id : " + agencyId + " not found");
 
         }
@@ -93,8 +93,9 @@ public class AgencyService{
         agencyRepository.deleteById(agencyId);
         return getAllAgencies(pageNo, pageSize, sortBy, sortDir);
 
-        return getAllAgencies(pageNo, pageSize, sortBy, sortDir);
     }
+
+
 
 
 
