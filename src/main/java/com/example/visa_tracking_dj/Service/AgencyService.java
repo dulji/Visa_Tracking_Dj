@@ -15,7 +15,7 @@ import java.util.NoSuchElementException;
 
 public class AgencyService{
 
-    @Autowired
+//    @Autowired
     private final AgencyRepository agencyRepository;
 
     public AgencyService (AgencyRepository agencyRepository){
@@ -86,11 +86,12 @@ public class AgencyService{
     public Page<AgencyDto> deleteAgency(Integer agencyId, int pageNo, int pageSize, String sortBy, String sortDir) {
 
         if(!agencyRepository.existsById(agencyId)){
-            throw new RuntimeException("Cannote delete, agency with id : " + agencyId + " not found");
+            throw new RuntimeException("Cannot delete, agency with id : " + agencyId + " not found");
 
         }
 
         agencyRepository.deleteById(agencyId);
+        return getAllAgencies(pageNo, pageSize, sortBy, sortDir);
 
         return getAllAgencies(pageNo, pageSize, sortBy, sortDir);
     }

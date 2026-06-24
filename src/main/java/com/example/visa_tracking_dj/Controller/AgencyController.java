@@ -15,6 +15,10 @@ public class AgencyController {
     @Autowired
     private AgencyService agencyService;
 
+    public AgencyController(AgencyService agencyService){
+        this.agencyService = agencyService;
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<AgencyDto> getAgencyByIs(@PathVariable("id") Integer agencyId){
         AgencyDto agencyDto = agencyService.getAgencyById(agencyId);
