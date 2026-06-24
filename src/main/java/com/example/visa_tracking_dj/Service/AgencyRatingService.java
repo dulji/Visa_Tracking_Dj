@@ -88,5 +88,4 @@ public class AgencyRatingService {
         return getAllRatings(pageNo, pageSize, sortBy, sortDir);
     }
 
-
 }
