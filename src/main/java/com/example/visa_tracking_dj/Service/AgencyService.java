@@ -12,7 +12,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.NoSuchElementException;
+import org.springframework.stereotype.Service;
 
+@Service
 public class AgencyService{
 
 //    @Autowired
