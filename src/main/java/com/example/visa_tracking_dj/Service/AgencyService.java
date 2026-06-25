@@ -13,6 +13,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.NoSuchElementException;
+import org.springframework.stereotype.Service;
 
 @Service
 public class AgencyService{
@@ -87,7 +88,7 @@ public class AgencyService{
 
     public Page<AgencyDto> deleteAgency(Integer agencyId, int pageNo, int pageSize, String sortBy, String sortDir) {
 
-        if(!agencyRepository.existsById(agencyId)){
+        if (!agencyRepository.existsById(agencyId)) {
             throw new RuntimeException("Cannot delete, agency with id : " + agencyId + " not found");
 
         }
@@ -97,6 +98,8 @@ public class AgencyService{
 
 
     }
+
+
 
 
 
