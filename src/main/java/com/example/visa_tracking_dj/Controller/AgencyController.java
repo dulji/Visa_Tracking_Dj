@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/agencies")
+@RequestMapping("/api/agency")
 public class AgencyController {
 
     @Autowired

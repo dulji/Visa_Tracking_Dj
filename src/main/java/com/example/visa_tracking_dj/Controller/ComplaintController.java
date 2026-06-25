@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/complaints")
+@RequestMapping("/api/complaint")
 public class ComplaintController {
 
     private ComplaintService complaintService;
