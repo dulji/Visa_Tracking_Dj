@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.NoSuchElementException;
 import org.springframework.stereotype.Service;
@@ -94,6 +95,7 @@ public class AgencyService{
 
         agencyRepository.deleteById(agencyId);
         return getAllAgencies(pageNo, pageSize, sortBy, sortDir);
+
 
     }
 
