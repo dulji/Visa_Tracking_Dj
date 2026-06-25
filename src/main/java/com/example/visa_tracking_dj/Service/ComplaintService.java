@@ -10,9 +10,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
 
 import java.util.NoSuchElementException;
 
+@Service
 public class ComplaintService  {
 
     private final ComplaintRepository complaintRepository;
@@ -73,7 +75,7 @@ public class ComplaintService  {
 
     }
 
-    public Page<ComplaintDto> udpateComplaint(Integer complaintId, ComplaintDto dto, int pageNo, int pageSize, String sortBy, String sortDir){
+    public Page<ComplaintDto> updateComplaint(Integer complaintId, ComplaintDto dto, int pageNo, int pageSize, String sortBy, String sortDir){
         ComplaintEntity existingEntity = complaintRepository.findById(complaintId)
                 .orElseThrow(()-> new RuntimeException("Cannot find complaint with Id : " + complaintId));
         existingEntity.setDescription(dto.getDescription());
