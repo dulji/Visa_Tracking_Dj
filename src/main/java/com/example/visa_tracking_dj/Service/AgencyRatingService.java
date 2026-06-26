@@ -86,6 +86,24 @@ public class AgencyRatingService {
 
     }
 
+    public Page<AgencyRatingDto> partialUpdateAgencyRating(Integer ratingId, AgencyRatingDto dto, int pageNo, int pageSize, String sortBy, String sortDir){
+        AgencyRatingEntity existingEntity = agencyRatingRepository.findById(ratingId).orElseThrow(() -> new RuntimeException("Cannot update, rating not found with Id : " + ratingId));
+
+        if(dto.getComments() != null){
+            existingEntity.setComments(dto.getComments());
+        }
+        if(dto.getScore() != null){
+            existingEntity.setScore(dto.getScore());
+        }
+        if(dto.getAgencyId() != null){
+            AgencyEntity parentId = agencyRepository.findById(dto.getAgencyId()).orElseThrow(() -> new RuntimeException("Parent agency not found with Id : " + dto.getAgencyId()));
+            existingEntity.setAgencyId(parentId);
+        }
+
+        agencyRatingRepository.save(existingEntity);
+        return getAllRatings(pageNo, pageSize, sortBy, sortDir);
+    }
+
     public Page<AgencyRatingDto> deleteRating(Integer ratingId, int pageNo, int pageSize, String sortBy, String sortDir){
         if(!agencyRatingRepository.existsById(ratingId)){
             throw new RuntimeException("Cannot delete record (Not found) with ID : " + ratingId);

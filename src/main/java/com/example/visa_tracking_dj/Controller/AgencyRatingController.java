@@ -3,6 +3,7 @@ package com.example.visa_tracking_dj.Controller;
 import com.example.visa_tracking_dj.Dto.AgencyRatingDto;
 import com.example.visa_tracking_dj.Service.AgencyRatingService;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -58,6 +59,19 @@ public class AgencyRatingController {
 
     ){
         Page<AgencyRatingDto> updatedPage = agencyRatingService.updateRating(ratingId, dto, pageNo, pageSize, sortBy, sortDir);
+        return ResponseEntity.ok(updatedPage);
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<Page<AgencyRatingDto>> partialUpdateAgencyRating(
+            @PathVariable Integer agencyRatingId,
+            @RequestBody AgencyRatingDto dto,
+            @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
+            @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize,
+            @RequestParam(value = "sortBy", defaultValue = "agencyRatingId", required = false) String sortBy,
+            @RequestParam(value = "sortDir", defaultValue = "asc", required = false) String sortDir,
+            Sort sort){
+        Page<AgencyRatingDto> updatedPage = agencyRatingService.partialUpdateAgencyRating(agencyRatingId, dto, pageNo, pageSize, sortBy, sortDir);
         return ResponseEntity.ok(updatedPage);
     }
 

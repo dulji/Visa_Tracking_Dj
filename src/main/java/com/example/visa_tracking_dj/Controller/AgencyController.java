@@ -6,6 +6,7 @@ import com.example.visa_tracking_dj.Service.AgencyService;
 import jakarta.persistence.GeneratedValue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -77,7 +78,7 @@ public class AgencyController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Page<AgencyDto>> updateAgency(
-            @PathVariable("id") Integer agencyId,
+            @PathVariable Integer agencyId,
             @RequestBody AgencyDto agencyDto,
             @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
             @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize,
@@ -86,6 +87,20 @@ public class AgencyController {
 
     ){
         Page<AgencyDto> updatedPage = agencyService.updateAgency(agencyId, agencyDto, pageNo, pageSize, sortBy, sortDir);
+        return ResponseEntity.ok(updatedPage);
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<Page<AgencyDto>> partialUpdateAgency(
+            @PathVariable Integer agencyId,
+            @RequestBody AgencyDto dto,
+            @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
+            @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize,
+            @RequestParam(value = "sortBy", defaultValue = "agencyId", required = false) String sortBy,
+            @RequestParam(value = "sortDir", defaultValue = "asc", required = false) String sortDir,
+
+            Sort sort){
+        Page<AgencyDto> updatedPage = agencyService.partialUpdateAgency(agencyId, dto, pageNo, pageSize, sortBy, sortDir);
         return ResponseEntity.ok(updatedPage);
     }
 

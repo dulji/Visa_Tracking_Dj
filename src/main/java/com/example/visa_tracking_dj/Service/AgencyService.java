@@ -105,6 +105,25 @@ public class AgencyService{
 
     }
 
+    public Page<AgencyDto> partialUpdateAgency(Integer agencyId, AgencyDto dto, int pageNo, int pageSize, String sortBy, String sortDir){
+        AgencyEntity existingEntity = agencyRepository.findById(agencyId).orElseThrow(() -> new RuntimeException("Cannot be updated. Agency record not found with Id : " + agencyId));
+
+        if(dto.getAgencyName() != null){
+            existingEntity.setAgencyName(dto.getAgencyName());
+        }
+        if(dto.getLicenseNumber() != null){
+            existingEntity.setLicenseNumber(dto.getLicenseNumber());
+        }
+        if(dto.getStatus() != null){
+            existingEntity.setStatus(dto.getStatus());
+        }
+        agencyRepository.save(existingEntity);
+
+        return  getAllAgencies(pageNo, pageSize, sortBy, sortDir);
+    }
+
+
+
     public void assignTourist(Integer agencyId, Long touristId){
         AgencyEntity agency = agencyRepository.findById(agencyId).orElseThrow(() -> new RuntimeException("Agency not found with Id : " + agencyId));
 
