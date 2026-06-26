@@ -6,6 +6,7 @@ import com.example.visa_tracking_dj.Entity.AgencyEntity;
 import com.example.visa_tracking_dj.Entity.ComplaintEntity;
 import com.example.visa_tracking_dj.Repository.AgencyRepository;
 import com.example.visa_tracking_dj.Repository.ComplaintRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -17,8 +18,11 @@ import java.util.NoSuchElementException;
 @Service
 public class ComplaintService  {
 
-    private final ComplaintRepository complaintRepository;
-    private final AgencyRepository agencyRepository;
+    @Autowired
+    private ComplaintRepository complaintRepository;
+
+    @Autowired
+    private AgencyRepository agencyRepository;
 
     public ComplaintService(ComplaintRepository complaintRepository, AgencyRepository agencyRepository){
         this.complaintRepository = complaintRepository;

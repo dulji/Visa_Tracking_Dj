@@ -2,7 +2,9 @@ package com.example.visa_tracking_dj.Service;
 
 import com.example.visa_tracking_dj.Dto.AgencyDto;
 import com.example.visa_tracking_dj.Entity.AgencyEntity;
+import com.example.visa_tracking_dj.Entity.AgencyTouristMappingEntity;
 import com.example.visa_tracking_dj.Repository.AgencyRepository;
+import com.example.visa_tracking_dj.Repository.AgencyTouristMappingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -12,6 +14,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 import org.springframework.stereotype.Service;
 
@@ -19,10 +22,12 @@ import org.springframework.stereotype.Service;
 public class AgencyService{
 
 //    @Autowired
-    private final AgencyRepository agencyRepository;
+    private AgencyRepository agencyRepository;
+    private AgencyTouristMappingRepository mappingRepository;
 
-    public AgencyService (AgencyRepository agencyRepository){
+    public AgencyService (AgencyRepository agencyRepository, AgencyTouristMappingRepository mappingRepository){
         this.agencyRepository = agencyRepository;
+        this.mappingRepository = mappingRepository;
 
     }
 
@@ -98,6 +103,31 @@ public class AgencyService{
         return getAllAgencies(pageNo, pageSize, sortBy, sortDir);
 
 
+    }
+
+    public void assignTourist(Integer agencyId, Long touristId){
+        AgencyEntity agency = agencyRepository.findById(agencyId).orElseThrow(() -> new RuntimeException("Agency not found with Id : " + agencyId));
+
+        if(mappingRepository.existsByTouristId(touristId)){
+            throw new IllegalArgumentException("Tourist is already assigned to an agency.");
+
+        }
+
+        AgencyTouristMappingEntity mapping = new AgencyTouristMappingEntity();
+        mapping.setMappingId(null);
+        mapping.setAgency(agency);
+        mapping.setTouristId(touristId);
+
+        mappingRepository.save(mapping);
+    }
+
+    public List<Long> getTouristsByAgency(Integer agencyId){
+        AgencyEntity agency = agencyRepository.findById(agencyId).orElseThrow(() -> new RuntimeException("Agency not found with Id : " + agencyId));
+
+
+        return  mappingRepository.findByAgency(agency).stream()
+                .map(AgencyTouristMappingEntity::getTouristId)
+                .toList();
     }
 
 
