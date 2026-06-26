@@ -66,6 +66,7 @@ public class AgencyRatingService {
 
     public Page<AgencyRatingDto> createRating(AgencyRatingDto dto, int pageNo, int pageSize, String sortBy, String sortDir){
         AgencyRatingEntity entity = convertToEntity(dto);
+        entity.setAgencyId(null);
         agencyRatingRepository.save(entity);
         return getAllRatings(pageNo, pageSize, sortBy, sortDir);
     }
