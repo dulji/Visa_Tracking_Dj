@@ -5,6 +5,7 @@ import com.example.visa_tracking_dj.Entity.AgencyEntity;
 import com.example.visa_tracking_dj.Entity.AgencyRatingEntity;
 import com.example.visa_tracking_dj.Repository.AgencyRatingRepository;
 import com.example.visa_tracking_dj.Repository.AgencyRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -14,13 +15,16 @@ import org.springframework.stereotype.Service;
 @Service
 public class AgencyRatingService {
 
-    private final AgencyRatingRepository agencyRatingRepository;
-    private final AgencyRepository agencyRepository;
+    @Autowired
+    private AgencyRatingRepository agencyRatingRepository;
 
-    public AgencyRatingService (AgencyRatingRepository agencyRatingRepository, AgencyRepository agencyRepository){
-        this.agencyRatingRepository = agencyRatingRepository;
-        this.agencyRepository = agencyRepository;
-    }
+    @Autowired
+    private AgencyRepository agencyRepository;
+
+//    public AgencyRatingService (AgencyRatingRepository agencyRatingRepository, AgencyRepository agencyRepository){
+//        this.agencyRatingRepository = agencyRatingRepository;
+//        this.agencyRepository = agencyRepository;
+//    }
 
 
     private AgencyRatingDto convertToDto(AgencyRatingEntity entity){

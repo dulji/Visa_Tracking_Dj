@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/agency")
 public class AgencyController {
@@ -41,6 +43,10 @@ public class AgencyController {
         return ResponseEntity.ok(agenciesPage);
     }
     //Changes
+    @GetMapping("/{agencyId}/tourists")
+    public ResponseEntity<List<Long>> getAssignedTourists(@PathVariable Integer agencyId){
+        return ResponseEntity.ok(agencyService.getTouristsByAgency(agencyId));
+    }
 
 
 
@@ -57,6 +63,17 @@ public class AgencyController {
 
         return new ResponseEntity<>(updatedAgenciesPage, HttpStatus.CREATED);
     }
+
+    @PostMapping("/{agencyId}/assign-tourist/{touristId}")
+    public ResponseEntity<String> assignTourist(
+            @PathVariable("agencyId") Integer agencyId,
+            @PathVariable("touristId") Long touristId){
+        agencyService.assignTourist(agencyId, touristId);
+        return ResponseEntity.status(HttpStatus.CREATED).body("Tourist successfully assigned to agency.");
+
+    }
+
+
 
     @PutMapping("/{id}")
     public ResponseEntity<Page<AgencyDto>> updateAgency(
