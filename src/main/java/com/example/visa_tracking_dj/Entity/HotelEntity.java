@@ -17,5 +17,7 @@ public class HotelEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer hotelId;
 
+    private String hotelName;
+
     private Integer registrationNumber;
 }

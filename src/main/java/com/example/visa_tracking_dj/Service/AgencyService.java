@@ -69,6 +69,7 @@ public class AgencyService{
     public Page<AgencyDto> createAgency(AgencyDto agencyDto, int pageNo, int pageSize, String sortBy, String sortDir){
 
         AgencyEntity entityToSave = convertToEntity(agencyDto);
+        entityToSave.setAgencyId(null);
         agencyRepository.save(entityToSave);
 
         return getAllAgencies(pageNo, pageSize, sortBy, sortDir);

@@ -70,6 +70,8 @@ public class ComplaintService  {
 
     public Page<ComplaintDto> createComplaint(ComplaintDto dto, int pageNo, int pageSize, String sortBy, String sortDir){
         ComplaintEntity entity = convertToEntity(dto);
+        entity.setComplaintId(null);
+
         complaintRepository.save(entity);
         return getAllComplaints(pageNo, pageSize, sortBy, sortDir);
 
