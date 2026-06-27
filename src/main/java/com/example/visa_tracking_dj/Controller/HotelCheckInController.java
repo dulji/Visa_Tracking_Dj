@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("api/v1/hotelCheckIn")
 public class HotelCheckInController {
@@ -35,6 +37,11 @@ public class HotelCheckInController {
         return ResponseEntity.ok(hotelCheckInService.getHotelCheckInById(hotelCheckInId));
     }
 
+    @GetMapping("/{hotelId}/tourists")
+    public ResponseEntity<List<Long>> getCheckedInTourists(@PathVariable Integer hotelId){
+        return  ResponseEntity.ok(hotelCheckInService.getTouristIdsByHotel(hotelId));
+    }
+
     @PostMapping
     public ResponseEntity<Page<HotelCheckInDto>> createHotelCheckIn(
             @RequestBody HotelCheckInDto dto,
@@ -47,6 +54,17 @@ public class HotelCheckInController {
         return new ResponseEntity<>(updatedPage, HttpStatus.CREATED);
 
     }
+
+    @PostMapping("/{hotelId}/assign-tourist/{touristId}")
+    public ResponseEntity<String> assignTourist(
+            @PathVariable Integer hotelId,
+            @PathVariable Long touristId){
+        hotelCheckInService.assignTouristToHotel(hotelId, touristId);
+        return ResponseEntity.status(HttpStatus.CREATED).body("Tourist registered to hotel successfully.");
+    }
+
+
+
 
     @PutMapping("/{id}")
     public ResponseEntity<Page<HotelCheckInDto>> updateHotelCheckIn(
