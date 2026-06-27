@@ -5,12 +5,15 @@ import com.example.visa_tracking_dj.Entity.HotelCheckInEntity;
 import com.example.visa_tracking_dj.Entity.HotelEntity;
 import com.example.visa_tracking_dj.Repository.HotelCheckInRepository;
 import com.example.visa_tracking_dj.Repository.HotelRepository;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class HotelCheckInService {
@@ -70,6 +73,42 @@ public class HotelCheckInService {
         return getAllHotelCheckIns(pageNo, pageSize, sortBy, sortDir);
 
     }
+
+    public void assignTouristToHotel(Integer hotelId, Long touristId){
+        HotelEntity hotel = hotelRepository.findById(hotelId).orElseThrow(() -> new RuntimeException("Hotel record cannot be found with Id : " + hotelId));
+
+        if(hotelCheckInRepository.existsByTouristId(touristId)){
+            throw new RuntimeException("This tourist is already checked into a hotel room.");
+        }
+
+        HotelCheckInEntity checkIn = new HotelCheckInEntity();
+        checkIn.setCheckinId(null);
+        checkIn.setHotelId(hotel);
+        checkIn.setTouristId(touristId);
+        checkIn.setCheckInDate(new java.util.Date());
+
+        hotelCheckInRepository.save(checkIn);
+    }
+
+    public List<Long> getTouristIdsByHotel(Integer hotelId){
+        HotelEntity hotel = hotelRepository.findById(hotelId).orElseThrow(() -> new RuntimeException("Hote record not found with Id: " + hotelId));
+
+        return hotelCheckInRepository.findByHotelId(hotel).stream()
+                .map(HotelCheckInEntity::getTouristId)
+                .toList();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
 
     public Page<HotelCheckInDto> updateHotelCheckIn(Integer hotelCheckinId, HotelCheckInDto dto, int pageSize, int pageNo, String sortBy, String sortDir){
         HotelCheckInEntity existing = hotelCheckInRepository.findById(hotelCheckinId).orElseThrow(() -> new RuntimeException("Hotel CheckIn not found with Id : " + hotelCheckinId));
