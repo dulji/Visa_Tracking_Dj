@@ -101,16 +101,6 @@ public class HotelCheckInService {
 
 
 
-
-
-
-
-
-
-
-
-
-
     public Page<HotelCheckInDto> updateHotelCheckIn(Integer hotelCheckinId, HotelCheckInDto dto, int pageSize, int pageNo, String sortBy, String sortDir){
         HotelCheckInEntity existing = hotelCheckInRepository.findById(hotelCheckinId).orElseThrow(() -> new RuntimeException("Hotel CheckIn not found with Id : " + hotelCheckinId));
 
@@ -167,10 +157,4 @@ public class HotelCheckInService {
             return dto;
         }).collect(java.util.stream.Collectors.toList());
     }
-}
-
-
-
-
-
 }
