@@ -22,7 +22,13 @@ public class HotelCheckInEntity {
     @JoinColumn(name="hotel_Id", nullable = false)
     private HotelEntity hotelId;
 
+    @Column(name ="tourist_id", nullable = false)
+    private Long touristId;
+
+    @Column(name="check_in_date", nullable = false)
     private Date checkInDate;
+
+
 
     //tourist id
 //    @ManyToOne

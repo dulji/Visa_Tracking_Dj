@@ -12,6 +12,7 @@ import java.util.Date;
 public class HotelCheckInDto {
     private Integer checkinId;
     private Integer hotelId;
+    private Long touristId;
     private Date checkInDate;
 
 }

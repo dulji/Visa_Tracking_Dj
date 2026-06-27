@@ -25,6 +25,7 @@ public class HotelCheckInService {
         return new HotelCheckInDto(
                 entity.getCheckinId(),
                 entity.getHotelId() != null ? entity.getHotelId().getHotelId() : null,
+                entity.getTouristId(),
                 entity.getCheckInDate()
         );
     }
@@ -39,7 +40,11 @@ public class HotelCheckInService {
                     .orElseThrow(() -> new RuntimeException("Record of Hotel not found with Id : " + dto.getHotelId() ));
             entity.setHotelId(hotel);
         }
-
+        try {
+            entity.setTouristId(dto.getTouristId());
+        }catch(Exception e){
+            throw new RuntimeException("Record of tourist not found with Id : " + dto.getTouristId());
+        }
         return entity;
 
     }
