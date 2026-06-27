@@ -140,6 +140,16 @@ public class AgencyService{
         mappingRepository.save(mapping);
     }
 
+    public void reassignTourist(Integer newAgencyId, Long touristId){
+        AgencyEntity newAgency = agencyRepository.findById(newAgencyId).orElseThrow(() -> new RuntimeException("Agency not found with Id : " + newAgencyId));
+
+        AgencyTouristMappingEntity mapping = mappingRepository.findByTouristId(touristId)
+                .orElseThrow(() -> new IllegalArgumentException("Tourist is not currently assigned to any agency."));
+
+        mapping.setAgency(newAgency);
+        mappingRepository.save(mapping);
+    }
+
     public List<Long> getTouristsByAgency(Integer agencyId){
         AgencyEntity agency = agencyRepository.findById(agencyId).orElseThrow(() -> new RuntimeException("Agency not found with Id : " + agencyId));
 

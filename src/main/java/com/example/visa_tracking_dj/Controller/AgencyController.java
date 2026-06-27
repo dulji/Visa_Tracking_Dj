@@ -69,9 +69,28 @@ public class AgencyController {
     public ResponseEntity<String> assignTourist(
             @PathVariable("agencyId") Integer agencyId,
             @PathVariable("touristId") Long touristId){
-        agencyService.assignTourist(agencyId, touristId);
-        return ResponseEntity.status(HttpStatus.CREATED).body("Tourist successfully assigned to agency.");
+        try {
+            agencyService.assignTourist(agencyId, touristId);
+            return ResponseEntity.status(HttpStatus.CREATED).body("Tourist successfully assigned to agency.");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to assign tourist. Please check server logs.");
+        }
+    }
 
+    @PutMapping("/{agencyId}/reassign-tourist/{touristId}")
+    public ResponseEntity<String> reassignTourist(
+            @PathVariable("agencyId") Integer agencyId,
+            @PathVariable("touristId") Long touristId){
+        try {
+            agencyService.reassignTourist(agencyId, touristId);
+            return ResponseEntity.status(HttpStatus.OK).body("Tourist successfully reassigned to new agency.");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to reassign tourist. Please check server logs.");
+        }
     }
 
 

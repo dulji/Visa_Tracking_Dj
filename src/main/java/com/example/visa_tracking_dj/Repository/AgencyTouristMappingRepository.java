@@ -11,4 +11,6 @@ public interface AgencyTouristMappingRepository extends JpaRepository<AgencyTour
     List<AgencyTouristMappingEntity> findByAgency(AgencyEntity agency);
 
     boolean existsByTouristId(Long touristId);
+    
+    java.util.Optional<AgencyTouristMappingEntity> findByTouristId(Long touristId);
 }

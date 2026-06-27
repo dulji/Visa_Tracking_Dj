@@ -20,7 +20,7 @@ public class AgencyTouristMappingEntity {
     @JoinColumn(name="agency_Id", nullable = false)
     private AgencyEntity agency;
 
-    @Column(name="tourist_id", nullable = false)
+    @Column(name="tourist_id", nullable = false, unique = true)
     private Long touristId;
 
 }
