@@ -11,4 +11,6 @@ public interface HotelCheckInRepository extends JpaRepository<HotelCheckInEntity
     List<HotelCheckInEntity> findByHotelId(HotelEntity hotel);
 
     boolean existsByTouristId(Long touristId);
+    
+    List<HotelCheckInEntity> findByTouristIdOrderByCheckInDateDesc(Long touristId);
 }

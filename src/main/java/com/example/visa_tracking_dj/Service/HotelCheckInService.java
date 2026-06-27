@@ -5,6 +5,7 @@ import com.example.visa_tracking_dj.Entity.HotelCheckInEntity;
 import com.example.visa_tracking_dj.Entity.HotelEntity;
 import com.example.visa_tracking_dj.Repository.HotelCheckInRepository;
 import com.example.visa_tracking_dj.Repository.HotelRepository;
+import com.example.visa_tracking_dj.Dto.TouristTravelLogDto;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -129,7 +130,7 @@ public class HotelCheckInService {
     }
 
     public Page<HotelCheckInDto> partialUpdateHotelCheckIn(Integer hotelCheckInId, HotelCheckInDto dto, int pageSize, int pageNo, String sortBy, String sortDir){
-        HotelCheckInEntity existing = hotelCheckInRepository.findById(hotelCheckInId).orElseThrow(() -> new RuntimeException("Update cannot be done, hotel cannot be found with Id: " + dto.getCheckinId()));
+        HotelCheckInEntity existing = hotelCheckInRepository.findById(hotelCheckInId).orElseThrow(() -> new RuntimeException("Update cannot be done, hotel cannot be found with Id : " + dto.getCheckinId()));
 
         if(dto.getCheckInDate() != null){
             existing.setCheckInDate(dto.getCheckInDate());
@@ -154,12 +155,19 @@ public class HotelCheckInService {
         hotelCheckInRepository.deleteById(hotelCheckInId);
         return getAllHotelCheckIns(pageNo, pageSize, sortBy, sortDir);
     }
-
-
-
-
-
-
+    
+    public List<TouristTravelLogDto> getTouristTravelHistory(Long touristId) {
+        List<HotelCheckInEntity> checkIns = hotelCheckInRepository.findByTouristIdOrderByCheckInDateDesc(touristId);
+        return checkIns.stream().map(checkIn -> {
+            TouristTravelLogDto dto = new TouristTravelLogDto();
+            if (checkIn.getHotelId() != null) {
+                dto.setHotelName(checkIn.getHotelId().getHotelName());
+            }
+            dto.setCheckInDate(checkIn.getCheckInDate());
+            return dto;
+        }).collect(java.util.stream.Collectors.toList());
+    }
+}
 
 
 

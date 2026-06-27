@@ -104,5 +104,8 @@ public class HotelCheckInController {
         return ResponseEntity.ok(updatedPage);
     }
 
-
+    @GetMapping("/tourist/{touristId}/history")
+    public ResponseEntity<List<com.example.visa_tracking_dj.Dto.TouristTravelLogDto>> getTouristTravelHistory(@PathVariable Long touristId) {
+        return ResponseEntity.ok(hotelCheckInService.getTouristTravelHistory(touristId));
+    }
 }
