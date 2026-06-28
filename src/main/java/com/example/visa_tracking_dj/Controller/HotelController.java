@@ -9,6 +9,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 @RestController
 @RequestMapping("/api/hotel")
@@ -18,6 +19,7 @@ public class HotelController {
     private HotelService hotelService;
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('HOTEL_STAFF', 'ADMIN', 'TOURIST_POLICE')")
     public ResponseEntity<Page<HotelDto>> getAllHotels(
             @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
             @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize,
@@ -29,11 +31,13 @@ public class HotelController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('HOTEL_STAFF', 'ADMIN', 'TOURIST_POLICE')")
     public ResponseEntity<HotelDto> getHotelById(@PathVariable Integer hotelId){
         return ResponseEntity.ok(hotelService.getHotelById(hotelId));
     }
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('HOTEL_STAFF', 'ADMIN')")
     public ResponseEntity<Page<HotelDto>> createHotel(
             @RequestBody HotelDto dto,
             @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
@@ -46,6 +50,7 @@ public class HotelController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAnyRole('HOTEL_STAFF', 'ADMIN')")
     public ResponseEntity<Page<HotelDto>> updateHotel(
             @PathVariable Integer hotelId,
             @RequestBody HotelDto dto,
@@ -59,6 +64,7 @@ public class HotelController {
     }
 
     @PatchMapping("/{id}")
+    @PreAuthorize("hasAnyRole('HOTEL_STAFF', 'ADMIN')")
     public ResponseEntity<Page<HotelDto>> patchComplaint(
             @PathVariable Integer hotelId,
             @RequestBody HotelDto dto,
@@ -72,6 +78,7 @@ public class HotelController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyRole('HOTEL_STAFF', 'ADMIN')")
     public ResponseEntity<Page<HotelDto>> deleteHotel(
             @PathVariable Integer hotelId,
             @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,

@@ -7,6 +7,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 @RestController
 @RequestMapping("/api/rating")
@@ -19,6 +20,7 @@ public class AgencyRatingController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('TRAVEL_AGENCY_STAFF', 'ADMIN', 'TOURIST_POLICE')")
     public ResponseEntity<Page<AgencyRatingDto>> getAllRatings(
             @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
             @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize,
@@ -30,11 +32,13 @@ public class AgencyRatingController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('TRAVEL_AGENCY_STAFF', 'ADMIN', 'TOURIST_POLICE')")
     public ResponseEntity<AgencyRatingDto> getRatingById(@PathVariable Integer ratingId){
         return ResponseEntity.ok(agencyRatingService.getRatingById(ratingId));
     }
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('TRAVEL_AGENCY_STAFF', 'ADMIN')")
     public ResponseEntity<Page<AgencyRatingDto>> createRating(
             @RequestBody AgencyRatingDto dto,
             @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
@@ -49,6 +53,7 @@ public class AgencyRatingController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAnyRole('TRAVEL_AGENCY_STAFF', 'ADMIN')")
     public ResponseEntity<Page<AgencyRatingDto>> updateRating(
             @PathVariable Integer ratingId,
             @RequestBody AgencyRatingDto dto,
@@ -63,6 +68,7 @@ public class AgencyRatingController {
     }
 
     @PatchMapping("/{id}")
+    @PreAuthorize("hasAnyRole('TRAVEL_AGENCY_STAFF', 'ADMIN')")
     public ResponseEntity<Page<AgencyRatingDto>> partialUpdateAgencyRating(
             @PathVariable Integer agencyRatingId,
             @RequestBody AgencyRatingDto dto,
@@ -76,6 +82,7 @@ public class AgencyRatingController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyRole('TRAVEL_AGENCY_STAFF', 'ADMIN')")
     public ResponseEntity<Page<AgencyRatingDto>> deleteRating(
             @PathVariable Integer ratingId,
             @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
