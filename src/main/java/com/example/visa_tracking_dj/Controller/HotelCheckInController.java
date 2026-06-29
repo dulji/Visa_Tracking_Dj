@@ -36,7 +36,7 @@ public class HotelCheckInController {
 
     @GetMapping("/{id}")
     @PreAuthorize("hasAnyRole('HOTEL_STAFF', 'ADMIN', 'TOURIST_POLICE')")
-    public ResponseEntity<HotelCheckInDto> getHotelCheckInById(@PathVariable Integer hotelCheckInId){
+    public ResponseEntity<HotelCheckInDto> getHotelCheckInById(@PathVariable("id") Integer hotelCheckInId){
         return ResponseEntity.ok(hotelCheckInService.getHotelCheckInById(hotelCheckInId));
     }
 
