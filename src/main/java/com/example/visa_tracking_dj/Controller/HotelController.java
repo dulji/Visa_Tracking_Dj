@@ -32,7 +32,7 @@ public class HotelController {
 
     @GetMapping("/{id}")
     @PreAuthorize("hasAnyRole('HOTEL_STAFF', 'ADMIN', 'TOURIST_POLICE')")
-    public ResponseEntity<HotelDto> getHotelById(@PathVariable Integer hotelId){
+    public ResponseEntity<HotelDto> getHotelById(@PathVariable("id") Integer hotelId){
         return ResponseEntity.ok(hotelService.getHotelById(hotelId));
     }
 
@@ -52,7 +52,7 @@ public class HotelController {
     @PutMapping("/{id}")
     @PreAuthorize("hasAnyRole('HOTEL_STAFF', 'ADMIN')")
     public ResponseEntity<Page<HotelDto>> updateHotel(
-            @PathVariable Integer hotelId,
+            @PathVariable("id") Integer hotelId,
             @RequestBody HotelDto dto,
             @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
             @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize,
@@ -66,7 +66,7 @@ public class HotelController {
     @PatchMapping("/{id}")
     @PreAuthorize("hasAnyRole('HOTEL_STAFF', 'ADMIN')")
     public ResponseEntity<Page<HotelDto>> patchComplaint(
-            @PathVariable Integer hotelId,
+            @PathVariable("id") Integer hotelId,
             @RequestBody HotelDto dto,
             @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
             @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize,
@@ -80,7 +80,7 @@ public class HotelController {
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAnyRole('HOTEL_STAFF', 'ADMIN')")
     public ResponseEntity<Page<HotelDto>> deleteHotel(
-            @PathVariable Integer hotelId,
+            @PathVariable("id") Integer hotelId,
             @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
             @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize,
             @RequestParam(value = "sortBy", defaultValue = "hotelId", required = false) String sortBy,
