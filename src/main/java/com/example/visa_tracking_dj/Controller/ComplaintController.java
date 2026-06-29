@@ -15,6 +15,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 @RequestMapping("/api/complaint")
 public class ComplaintController {
 
+    @Autowired
     private ComplaintService complaintService;
 
     @GetMapping
