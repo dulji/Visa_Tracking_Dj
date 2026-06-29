@@ -70,7 +70,7 @@ public class AgencyRatingService {
 
     public Page<AgencyRatingDto> createRating(AgencyRatingDto dto, int pageNo, int pageSize, String sortBy, String sortDir){
         AgencyRatingEntity entity = convertToEntity(dto);
-        entity.setAgencyId(null);
+//        entity.setAgencyId(null);
         agencyRatingRepository.save(entity);
         return getAllRatings(pageNo, pageSize, sortBy, sortDir);
     }
@@ -82,6 +82,7 @@ public class AgencyRatingService {
         existingEntity.setScore(dto.getScore());
         existingEntity.setComments(dto.getComments());
 
+        agencyRatingRepository.save(existingEntity);
         return getAllRatings(pageNo, pageSize, sortBy, sortDir);
 
     }
