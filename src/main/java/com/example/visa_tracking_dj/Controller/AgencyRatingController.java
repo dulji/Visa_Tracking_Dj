@@ -39,60 +39,37 @@ public class AgencyRatingController {
 
     @PostMapping
     @PreAuthorize("hasAnyRole('TRAVEL_AGENCY_STAFF', 'ADMIN')")
-    public ResponseEntity<Page<AgencyRatingDto>> createRating(
-            @RequestBody AgencyRatingDto dto,
-            @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
-            @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize,
-            @RequestParam(value = "sortBy", defaultValue = "ratingId", required = false) String sortBy,
-            @RequestParam(value = "sortDir", defaultValue = "asc", required = false) String sortDir
+    public ResponseEntity<AgencyRatingDto> createRating(
+            @RequestBody AgencyRatingDto dto){
+        AgencyRatingDto createdRating = agencyRatingService.createRating(dto);
 
-    ){
-        Page<AgencyRatingDto> updatedPage = agencyRatingService.createRating(dto, pageNo, pageSize, sortBy, sortDir);
-
-        return new ResponseEntity<>(updatedPage, HttpStatus.CREATED);
+        return new ResponseEntity<>(createdRating, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
     @PreAuthorize("hasAnyRole('TRAVEL_AGENCY_STAFF', 'ADMIN')")
-    public ResponseEntity<Page<AgencyRatingDto>> updateRating(
+    public ResponseEntity<AgencyRatingDto> updateRating(
             @PathVariable Integer ratingId,
-            @RequestBody AgencyRatingDto dto,
-            @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
-            @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize,
-            @RequestParam(value = "sortBy", defaultValue = "ratingId", required = false) String sortBy,
-            @RequestParam(value = "sortDir", defaultValue = "asc", required = false) String sortDir
-
-    ){
-        Page<AgencyRatingDto> updatedPage = agencyRatingService.updateRating(ratingId, dto, pageNo, pageSize, sortBy, sortDir);
-        return ResponseEntity.ok(updatedPage);
+            @RequestBody AgencyRatingDto dto){
+        AgencyRatingDto updatedRating = agencyRatingService.updateRating(ratingId, dto);
+        return ResponseEntity.ok(updatedRating);
     }
 
     @PatchMapping("/{id}")
     @PreAuthorize("hasAnyRole('TRAVEL_AGENCY_STAFF', 'ADMIN')")
     public ResponseEntity<Page<AgencyRatingDto>> partialUpdateAgencyRating(
             @PathVariable Integer agencyRatingId,
-            @RequestBody AgencyRatingDto dto,
-            @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
-            @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize,
-            @RequestParam(value = "sortBy", defaultValue = "agencyRatingId", required = false) String sortBy,
-            @RequestParam(value = "sortDir", defaultValue = "asc", required = false) String sortDir,
-            Sort sort){
-        Page<AgencyRatingDto> updatedPage = agencyRatingService.partialUpdateAgencyRating(agencyRatingId, dto, pageNo, pageSize, sortBy, sortDir);
-        return ResponseEntity.ok(updatedPage);
+            @RequestBody AgencyRatingDto dto){
+        AgencyRatingDto updatedRating = agencyRatingService.partialUpdateAgencyRating(ratingId, dto);
+        return ResponseEntity.ok(updatedRating);
     }
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAnyRole('TRAVEL_AGENCY_STAFF', 'ADMIN')")
-    public ResponseEntity<Page<AgencyRatingDto>> deleteRating(
-            @PathVariable Integer ratingId,
-            @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
-            @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize,
-            @RequestParam(value = "sortBy", defaultValue = "ratingId", required = false) String sortBy,
-            @RequestParam(value = "sortDir", defaultValue = "asc", required = false) String sortDir
-
-    ){
-        Page<AgencyRatingDto> updatedPage = agencyRatingService.deleteRating(ratingId, pageNo, pageSize, sortBy, sortDir);
-        return ResponseEntity.ok(updatedPage);
+    public ResponseEntity<Void> deleteRating(
+            @PathVariable Integer ratingId){
+        agencyRatingService.deleteRating(ratingId);
+        return ResponseEntity.noContent().build();
     }
 
 }

@@ -68,26 +68,26 @@ public class AgencyRatingService {
 
     }
 
-    public Page<AgencyRatingDto> createRating(AgencyRatingDto dto, int pageNo, int pageSize, String sortBy, String sortDir){
+    public AgencyRatingDto createRating(AgencyRatingDto dto){
         AgencyRatingEntity entity = convertToEntity(dto);
 //        entity.setAgencyId(null);
-        agencyRatingRepository.save(entity);
-        return getAllRatings(pageNo, pageSize, sortBy, sortDir);
+        AgencyRatingEntity savedEntity = agencyRatingRepository.save(entity);
+        return convertToDto(savedEntity);
     }
 
-    public Page<AgencyRatingDto> updateRating(Integer ratingId, AgencyRatingDto dto, int pageNo, int pageSize, String sortBy, String sortDir){
+    public AgencyRatingDto updateRating(Integer ratingId, AgencyRatingDto dto){
         AgencyRatingEntity existingEntity = agencyRatingRepository.findById(ratingId)
                 .orElseThrow(()-> new RuntimeException("Cannot update. Rating record not found with ID: " + dto.getAgencyId()));
 
         existingEntity.setScore(dto.getScore());
         existingEntity.setComments(dto.getComments());
 
-        agencyRatingRepository.save(existingEntity);
-        return getAllRatings(pageNo, pageSize, sortBy, sortDir);
+        AgencyRatingEntity savedEntity = agencyRatingRepository.save(existingEntity);
+        return convertToDto(savedEntity);
 
     }
 
-    public Page<AgencyRatingDto> partialUpdateAgencyRating(Integer ratingId, AgencyRatingDto dto, int pageNo, int pageSize, String sortBy, String sortDir){
+    public AgencyRatingDto partialUpdateAgencyRating(Integer ratingId, AgencyRatingDto dto){
         AgencyRatingEntity existingEntity = agencyRatingRepository.findById(ratingId).orElseThrow(() -> new RuntimeException("Cannot update, rating not found with Id : " + ratingId));
 
         if(dto.getComments() != null){
@@ -101,17 +101,16 @@ public class AgencyRatingService {
             existingEntity.setAgencyId(parentId);
         }
 
-        agencyRatingRepository.save(existingEntity);
-        return getAllRatings(pageNo, pageSize, sortBy, sortDir);
+        AgencyRatingEntity savedEntity = agencyRatingRepository.save(existingEntity);
+        return convertToDto(savedEntity);
     }
 
-    public Page<AgencyRatingDto> deleteRating(Integer ratingId, int pageNo, int pageSize, String sortBy, String sortDir){
+    public void deleteRating(Integer ratingId){
         if(!agencyRatingRepository.existsById(ratingId)){
             throw new RuntimeException("Cannot delete record (Not found) with ID : " + ratingId);
         }
         agencyRatingRepository.deleteById(ratingId);
 
-        return getAllRatings(pageNo, pageSize, sortBy, sortDir);
     }
 
 }

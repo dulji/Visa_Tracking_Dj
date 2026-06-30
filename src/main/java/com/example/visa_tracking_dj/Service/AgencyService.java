@@ -71,28 +71,28 @@ public class AgencyService{
 
     }
 
-    public Page<AgencyDto> createAgency(AgencyDto agencyDto, int pageNo, int pageSize, String sortBy, String sortDir){
+    public AgencyDto createAgency(AgencyDto agencyDto){
 
         AgencyEntity entityToSave = convertToEntity(agencyDto);
         entityToSave.setAgencyId(null);
-        agencyRepository.save(entityToSave);
+        AgencyEntity savedEntity = agencyRepository.save(entityToSave);
 
-        return getAllAgencies(pageNo, pageSize, sortBy, sortDir);
+        return convertToDto(savedEntity);
     }
 
-    public Page<AgencyDto> updateAgency(Integer agencyId, AgencyDto agencyDto, int pageNo, int pageSize, String sortBy, String sortDir){
+    public AgencyDto updateAgency(Integer agencyId, AgencyDto agencyDto){
         AgencyEntity existingAgency = agencyRepository.findById(agencyId).orElseThrow(() -> new RuntimeException("Cannot update. Agency with id: " + agencyId + " not found"));
 
         existingAgency.setAgencyName(agencyDto.getAgencyName());
         existingAgency.setLicenseNumber(agencyDto.getLicenseNumber());
         existingAgency.setStatus(agencyDto.getStatus());
 
-        agencyRepository.save(existingAgency);
+        AgencyEntity savedEntity = agencyRepository.save(existingAgency);
 
-        return getAllAgencies(pageNo, pageSize, sortBy, sortDir);
+        return convertToDto(savedEntity);
     }
 
-    public Page<AgencyDto> deleteAgency(Integer agencyId, int pageNo, int pageSize, String sortBy, String sortDir) {
+    public void deleteAgency(Integer agencyId) {
 
         if (!agencyRepository.existsById(agencyId)) {
             throw new RuntimeException("Cannot delete, agency with id : " + agencyId + " not found");
@@ -100,12 +100,11 @@ public class AgencyService{
         }
 
         agencyRepository.deleteById(agencyId);
-        return getAllAgencies(pageNo, pageSize, sortBy, sortDir);
 
 
     }
 
-    public Page<AgencyDto> partialUpdateAgency(Integer agencyId, AgencyDto dto, int pageNo, int pageSize, String sortBy, String sortDir){
+    public AgencyDto partialUpdateAgency(Integer agencyId, AgencyDto dto){
         AgencyEntity existingEntity = agencyRepository.findById(agencyId).orElseThrow(() -> new RuntimeException("Cannot be updated. Agency record not found with Id : " + agencyId));
 
         if(dto.getAgencyName() != null){
@@ -117,9 +116,9 @@ public class AgencyService{
         if(dto.getStatus() != null){
             existingEntity.setStatus(dto.getStatus());
         }
-        agencyRepository.save(existingEntity);
+        AgencyEntity savedEntity = agencyRepository.save(existingEntity);
 
-        return  getAllAgencies(pageNo, pageSize, sortBy, sortDir);
+        return convertToDto(savedEntity);
     }
 
 

@@ -2,6 +2,7 @@ package com.example.visa_tracking_dj.Controller;
 
 import com.example.visa_tracking_dj.Dto.HotelCheckInDto;
 import com.example.visa_tracking_dj.Dto.HotelDto;
+import com.example.visa_tracking_dj.Entity.HotelCheckInEntity;
 import com.example.visa_tracking_dj.Service.HotelCheckInService;
 import com.example.visa_tracking_dj.Service.HotelService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,15 +49,10 @@ public class HotelCheckInController {
 
     @PostMapping
     @PreAuthorize("hasAnyRole('HOTEL_STAFF', 'ADMIN')")
-    public ResponseEntity<Page<HotelCheckInDto>> createHotelCheckIn(
-            @RequestBody HotelCheckInDto dto,
-            @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
-            @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize,
-            @RequestParam(value = "sortBy", defaultValue = "hotelCheckInId", required = false) String sortBy,
-            @RequestParam(value = "sortDir", defaultValue = "asc", required = false) String sortDir
-    ){
-        Page<HotelCheckInDto> updatedPage = hotelCheckInService.createHotelCheckIn(dto, pageNo, pageSize, sortBy, sortDir);
-        return new ResponseEntity<>(updatedPage, HttpStatus.CREATED);
+    public ResponseEntity<HotelCheckInDto> createHotelCheckIn(
+            @RequestBody HotelCheckInDto dto){
+        HotelCheckInDto createdCheckIn = hotelCheckInService.createHotelCheckIn(dto);
+        return new ResponseEntity<>(createdCheckIn, HttpStatus.CREATED);
 
     }
 
@@ -74,43 +70,28 @@ public class HotelCheckInController {
 
     @PutMapping("/{id}")
     @PreAuthorize("hasAnyRole('HOTEL_STAFF', 'ADMIN')")
-    public ResponseEntity<Page<HotelCheckInDto>> updateHotelCheckIn(
+    public ResponseEntity<HotelCheckInDto> updateHotelCheckIn(
             @PathVariable Integer hotelCheckInId,
-            @RequestBody HotelCheckInDto dto,
-            @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
-            @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize,
-            @RequestParam(value = "sortBy", defaultValue = "hotelCheckInId", required = false) String sortBy,
-            @RequestParam(value = "sortDir", defaultValue = "asc", required = false) String sortDir
-    ){
-        Page<HotelCheckInDto> updatedPage = hotelCheckInService.updateHotelCheckIn(hotelCheckInId, dto, pageNo, pageSize, sortBy, sortDir);
-        return ResponseEntity.ok(updatedPage);
+            @RequestBody HotelCheckInDto dto){
+        HotelCheckInDto updatedCheckIn = hotelCheckInService.updateHotelCheckIn(hotelCheckInId, dto);
+        return ResponseEntity.ok(updatedCheckIn);
     }
 
     @PatchMapping("/{id}")
     @PreAuthorize("hasAnyRole('HOTEL_STAFF', 'ADMIN')")
-    public ResponseEntity<Page<HotelCheckInDto>> partialUpdateCheckIn(
+    public ResponseEntity<HotelCheckInDto> partialUpdateCheckIn(
             @PathVariable Integer hotelCheckInId,
-            @RequestBody HotelCheckInDto dto,
-            @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
-            @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize,
-            @RequestParam(value = "sortBy", defaultValue = "hotelCheckInId", required = false) String sortBy,
-            @RequestParam(value = "sortDir", defaultValue = "asc", required = false) String sortDir
-    ){
-        Page<HotelCheckInDto> updatedPage = hotelCheckInService.partialUpdateHotelCheckIn(hotelCheckInId, dto, pageNo, pageSize, sortBy, sortDir);
-        return ResponseEntity.ok(updatedPage);
+            @RequestBody HotelCheckInDto dto){
+        HotelCheckInDto updatedCheckIn = hotelCheckInService.partialUpdateHotelCheckIn(hotelCheckInId, dto);
+        return ResponseEntity.ok(updatedCheckIn);
     }
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAnyRole('HOTEL_STAFF', 'ADMIN')")
-    public ResponseEntity<Page<HotelCheckInDto>> deleteCheckIn(
-            @PathVariable Integer hotelCheckInId,
-            @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
-            @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize,
-            @RequestParam(value = "sortBy", defaultValue = "hotelCheckInId", required = false) String sortBy,
-            @RequestParam(value = "sortDir", defaultValue = "asc", required = false) String sortDir
-    ){
-        Page<HotelCheckInDto> updatedPage = hotelCheckInService.deleteCheckIn(hotelCheckInId, pageNo, pageSize, sortBy, sortDir);
-        return ResponseEntity.ok(updatedPage);
+    public ResponseEntity<Void> deleteCheckIn(
+            @PathVariable Integer hotelCheckInId){
+        hotelCheckInService.deleteCheckIn(hotelCheckInId);
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/tourist/{touristId}/history")

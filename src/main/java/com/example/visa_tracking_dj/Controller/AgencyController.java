@@ -27,7 +27,7 @@ public class AgencyController {
 
     @GetMapping("/{id}")
     @PreAuthorize("hasAnyRole('TRAVEL_AGENCY_STAFF', 'ADMIN', 'TOURIST_POLICE')")
-    public ResponseEntity<AgencyDto> getAgencyByIs(@PathVariable("id") Integer agencyId){
+    public ResponseEntity<AgencyDto> getAgencyById(@PathVariable("id") Integer agencyId){
         AgencyDto agencyDto = agencyService.getAgencyById(agencyId);
         return ResponseEntity.ok(agencyDto);
     }
@@ -57,17 +57,11 @@ public class AgencyController {
 
     @PostMapping
     @PreAuthorize("hasAnyRole('TRAVEL_AGENCY_STAFF', 'ADMIN')")
-    public ResponseEntity<Page<AgencyDto>> createAgency(
-            @RequestBody AgencyDto agencyDto,
-            @RequestParam(value = "pageNo", defaultValue = "0", required = false)int pageNo,
-            @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize,
-            @RequestParam(value = "sortBy", defaultValue="agencyName", required = false) String sortBy,
-            @RequestParam(value = "sortDir", defaultValue = "asc", required = false) String sortDir
+    public ResponseEntity<AgencyDto> createAgency(
+            @RequestBody AgencyDto agencyDto){
+        AgencyDto createdAgency = agencyService.createAgency(agencyDto);
 
-    ){
-        Page<AgencyDto> updatedAgenciesPage = agencyService.createAgency(agencyDto, pageNo, pageSize, sortBy, sortDir);
-
-        return new ResponseEntity<>(updatedAgenciesPage, HttpStatus.CREATED);
+        return new ResponseEntity<>(createdAgency, HttpStatus.CREATED);
     }
 
     @PostMapping("/{agencyId}/assign-tourist/{touristId}")
@@ -104,45 +98,28 @@ public class AgencyController {
 
     @PutMapping("/{id}")
     @PreAuthorize("hasAnyRole('TRAVEL_AGENCY_STAFF', 'ADMIN')")
-    public ResponseEntity<Page<AgencyDto>> updateAgency(
+    public ResponseEntity<AgencyDto> updateAgency(
             @PathVariable Integer agencyId,
-            @RequestBody AgencyDto agencyDto,
-            @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
-            @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize,
-            @RequestParam(value = "sortBy", defaultValue = "agencyName", required = false) String sortBy,
-            @RequestParam(value = "sortDir", defaultValue = "asc", required = false) String sortDir
-
-    ){
-        Page<AgencyDto> updatedPage = agencyService.updateAgency(agencyId, agencyDto, pageNo, pageSize, sortBy, sortDir);
-        return ResponseEntity.ok(updatedPage);
+            @RequestBody AgencyDto agencyDto){
+        AgencyDto updatedAgency = agencyService.createAgency(agencyId, agencyDto);
+        return ResponseEntity.ok(updatedAgency);
     }
 
     @PatchMapping("/{id}")
     @PreAuthorize("hasAnyRole('TRAVEL_AGENCY_STAFF', 'ADMIN')")
-    public ResponseEntity<Page<AgencyDto>> partialUpdateAgency(
+    public ResponseEntity<AgencyDto> partialUpdateAgency(
             @PathVariable Integer agencyId,
-            @RequestBody AgencyDto dto,
-            @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
-            @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize,
-            @RequestParam(value = "sortBy", defaultValue = "agencyId", required = false) String sortBy,
-            @RequestParam(value = "sortDir", defaultValue = "asc", required = false) String sortDir,
-
-            Sort sort){
-        Page<AgencyDto> updatedPage = agencyService.partialUpdateAgency(agencyId, dto, pageNo, pageSize, sortBy, sortDir);
-        return ResponseEntity.ok(updatedPage);
+            @RequestBody AgencyDto dto){
+        AgencyDto updatedAgency = agencyService.partialUpdateAgency(agencyId, dto);
+        return ResponseEntity.ok(updatedAgency);
     }
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAnyRole('TRAVEL_AGENCY_STAFF', 'ADMIN')")
     public ResponseEntity<Page<AgencyDto>> deleteAgency(
-            @PathVariable("id") Integer agencyId,
-            @RequestParam(value = "pageNo", defaultValue = "0", required = false)int pageNo,
-            @RequestParam(value = "pageSize", defaultValue = "10", required = false)int pageSize,
-            @RequestParam(value = "sortBy", defaultValue = "agencyName", required = false)String sortBy,
-            @RequestParam(value="sortDir", defaultValue="asc", required = false)String sortDir
-    ){
-        Page<AgencyDto> updatedPage = agencyService.deleteAgency(agencyId, pageNo, pageSize, sortBy, sortDir);
-        return ResponseEntity.ok(updatedPage);
+            @PathVariable("id") Integer agencyId){
+        agencyService.deleteAgency(agencyId);
+        return ResponseEntity.noContent().build();
    }
 }
 

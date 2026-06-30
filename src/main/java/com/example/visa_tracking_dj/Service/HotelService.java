@@ -47,26 +47,26 @@ public class HotelService {
         return convertToDto(entity);
     }
 
-    public Page<HotelDto> createHotel(HotelDto dto, int pageNo, int pageSize, String sortBy, String sortDir){
+    public HotelDto createHotel(HotelDto dto){
         HotelEntity entity = convertToEntity(dto);
         entity.setHotelId(null);
 
-        hotelRepository.save(entity);
-        return getAllHotels(pageNo, pageSize, sortBy, sortDir);
+        HotelEntity savedEntity = hotelRepository.save(entity);
+        return convertToDto(savedEntity);
     }
 
-    public Page<HotelDto> updateHotel(Integer hotelId, HotelDto dto, int pageNo, int pageSize, String sortBy, String sortDir){
+    public HotelDto updateHotel(Integer hotelId, HotelDto dto){
         HotelEntity existingEntity = hotelRepository.findById(hotelId).orElseThrow(() -> new RuntimeException("Hotel not found with Id : " + hotelId));
 
         existingEntity.setHotelName(dto.getHotelName());
         existingEntity.setRegistrationNumber(dto.getRegistrationNumber());
 
-        hotelRepository.save(existingEntity);
-        return getAllHotels(pageNo, pageSize, sortBy, sortDir);
+        HotelEntity savedEntity = hotelRepository.save(existingEntity);
+        return convertToDto(savedEntity);
 
     }
 
-    public Page<HotelDto> patchHotel(Integer hotelId, HotelDto dto, int pageNo, int pageSize, String sortBy, String sortDir){
+    public HotelDto patchHotel(Integer hotelId, HotelDto dto){
         HotelEntity existingEntity = hotelRepository.findById(hotelId).orElseThrow(() -> new RuntimeException("Update cannot be done. Hotel not found with Id : " + hotelId));
 
         if(dto.getHotelName() != null){
@@ -76,18 +76,17 @@ public class HotelService {
             existingEntity.setRegistrationNumber(dto.getRegistrationNumber());
         }
 
-        hotelRepository.save(existingEntity);
-        return getAllHotels(pageNo, pageSize, sortBy, sortDir);
+        HotelEntity savedEntity = hotelRepository.save(existingEntity);
+        return convertToDto(savedEntity);
 
 
     }
 
-    public Page<HotelDto> deleteHotel(Integer hotelId, int pageNo, int pageSize, String sortBy, String sortDir){
+    public void deleteHotel(Integer hotelId){
         if(!hotelRepository.existsById(hotelId)){
             throw new RuntimeException("Deletion cannot be done. Hotel not found with ID : " + hotelId);
         }
         hotelRepository.deleteById(hotelId);
-        return getAllHotels(pageNo, pageSize, sortBy, sortDir);
     }
 
 

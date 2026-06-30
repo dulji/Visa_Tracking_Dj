@@ -38,59 +38,38 @@ public class ComplaintController {
 
     @PostMapping
     @PreAuthorize("hasAnyRole('HOTEL_STAFF', 'TRAVEL_AGENCY_STAFF', 'ADMIN')")
-    public ResponseEntity<Page<ComplaintDto>> createComplaint(
-            @RequestBody ComplaintDto dto,
-            @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
-            @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize,
-            @RequestParam(value = "sortBy", defaultValue = "complaintId", required = false) String sortBy,
-            @RequestParam(value = "sortDir", defaultValue = "asc", required = false) String sortDir
-    ){
-        Page<ComplaintDto> updatedPage = complaintService.createComplaint(dto, pageNo, pageSize, sortBy, sortDir);
+    public ResponseEntity<ComplaintDto> createComplaint(
+            @RequestBody ComplaintDto dto){
+        ComplaintDto createdComplaint = complaintService.createComplaint(dto);
 
-        return new ResponseEntity<>(updatedPage, HttpStatus.CREATED);
+        return new ResponseEntity<>(createdComplaint, HttpStatus.CREATED);
 
     }
 
     @PutMapping("/{id}")
     @PreAuthorize("hasAnyRole('TOURIST_POLICE', 'ADMIN')")
-    public ResponseEntity<Page<ComplaintDto>> updateComplaint(
+    public ResponseEntity<ComplaintDto> updateComplaint(
             @PathVariable Integer complaintId,
-            @RequestBody ComplaintDto dto,
-            @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
-            @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize,
-            @RequestParam(value = "sortBy", defaultValue = "complaintId", required = false) String sortBy,
-            @RequestParam(value = "sortDir", defaultValue = "asc", required = false) String sortDir,
-            Sort sort){
-        Page<ComplaintDto> updatedPage = complaintService.updateComplaint(complaintId, dto, pageNo, pageSize, sortBy, sortDir);
-        return ResponseEntity.ok(updatedPage);
+            @RequestBody ComplaintDto dto){
+        ComplaintDto updatedComplaint = complaintService.updateComplaint(id, dto);
+        return ResponseEntity.ok(updatedComplaint);
     }
 
     @PatchMapping("/{id}")
     @PreAuthorize("hasAnyRole('TOURIST_POLICE', 'ADMIN')")
-    public ResponseEntity<Page<ComplaintDto>> patchComplaint(
+    public ResponseEntity<ComplaintDto> patchComplaint(
             @PathVariable Integer complaintId,
-            @RequestBody ComplaintDto dto,
-            @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
-            @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize,
-            @RequestParam(value = "sortBy", defaultValue = "complaintId", required = false) String sortBy,
-            @RequestParam(value = "sortDir", defaultValue = "asc", required = false) String sortDir
-
-    ){
-        Page<ComplaintDto> updatedPage = complaintService.partialUpdateComplaint(complaintId, dto, pageNo, pageSize, sortBy, sortDir);
-        return ResponseEntity.ok(updatedPage);
+            @RequestBody ComplaintDto dto){
+        ComplaintDto updatedComplaint = complaintService .partialUpdateComplaint(complaintId, dto);
+        return ResponseEntity.ok(updatedComplaint);
     }
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAnyRole('TOURIST_POLICE', 'ADMIN')")
-    public ResponseEntity<Page<ComplaintDto>> deleteComplaint(
-            @PathVariable Integer complaintId,
-            @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
-            @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize,
-            @RequestParam(value = "sortBy", defaultValue = "complaintId", required = false) String sortBy,
-            @RequestParam(value = "sortDir", defaultValue = "asc", required = false) String sortDir
-    ){
-        Page<ComplaintDto> updatedPage = complaintService.deleteComplaint(complaintId, pageNo, pageSize, sortBy, sortDir);
-        return ResponseEntity.ok(updatedPage);
+    public ResponseEntity<Void> deleteComplaint(
+            @PathVariable Integer complaintId){
+        complaintService.deleteComplaint(complaintId);
+        return ResponseEntity.noContent().build();
     }
 
 

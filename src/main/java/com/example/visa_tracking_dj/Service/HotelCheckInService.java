@@ -67,11 +67,11 @@ public class HotelCheckInService {
         return convertToDto(entity);
     }
 
-    public Page<HotelCheckInDto> createHotelCheckIn(HotelCheckInDto dto, int pageNo, int pageSize, String sortBy, String sortDir){
+    public HotelCheckInDto createHotelCheckIn(HotelCheckInDto dto){
         HotelCheckInEntity entity = convertToEntity(dto);
         entity.setCheckinId(null);
-        hotelCheckInRepository.save(entity);
-        return getAllHotelCheckIns(pageNo, pageSize, sortBy, sortDir);
+        HotelCheckInEntity savedEntity = hotelCheckInRepository.save(entity);
+        return convertToDto(savedEntity);
 
     }
 
@@ -101,7 +101,7 @@ public class HotelCheckInService {
 
 
 
-    public Page<HotelCheckInDto> updateHotelCheckIn(Integer hotelCheckinId, HotelCheckInDto dto, int pageSize, int pageNo, String sortBy, String sortDir){
+    public HotelCheckInDto updateHotelCheckIn(Integer hotelCheckinId, HotelCheckInDto dto){
         HotelCheckInEntity existing = hotelCheckInRepository.findById(hotelCheckinId).orElseThrow(() -> new RuntimeException("Hotel CheckIn not found with Id : " + hotelCheckinId));
 
         existing.setCheckInDate(dto.getCheckInDate());
@@ -112,14 +112,14 @@ public class HotelCheckInService {
             existing.setHotelId(hotel);
         }
 
-        hotelCheckInRepository.save(existing);
-        return getAllHotelCheckIns(pageNo, pageSize, sortBy, sortDir);
+        HotelCheckInEntity savedEntity = hotelCheckInRepository.save(existing);
+        return convertToDto(savedEntity);
 
 
 
     }
 
-    public Page<HotelCheckInDto> partialUpdateHotelCheckIn(Integer hotelCheckInId, HotelCheckInDto dto, int pageSize, int pageNo, String sortBy, String sortDir){
+    public HotelCheckInDto partialUpdateHotelCheckIn(Integer hotelCheckInId, HotelCheckInDto dto){
         HotelCheckInEntity existing = hotelCheckInRepository.findById(hotelCheckInId).orElseThrow(() -> new RuntimeException("Update cannot be done, hotel cannot be found with Id : " + dto.getCheckinId()));
 
         if(dto.getCheckInDate() != null){
@@ -132,18 +132,17 @@ public class HotelCheckInService {
             existing.setHotelId(hotel);
         }
 
-        hotelCheckInRepository.save(existing);
-        return getAllHotelCheckIns(pageNo, pageSize, sortBy, sortDir);
+        HotelCheckInEntity savedEntity = hotelCheckInRepository.save(existing);
+        return convertToDto(savedEntity);
 
 
     }
 
-    public Page<HotelCheckInDto> deleteCheckIn(Integer hotelCheckInId, int pageNo, int pageSize, String sortBy, String sortDir){
+    public void deleteCheckIn(Integer hotelCheckInId){
         if(!hotelCheckInRepository.existsById(hotelCheckInId)){
             throw new RuntimeException("Deletion cannot be done, hotel CheckIn cannot be found with Id : " + hotelCheckInId);
         }
         hotelCheckInRepository.deleteById(hotelCheckInId);
-        return getAllHotelCheckIns(pageNo, pageSize, sortBy, sortDir);
     }
     
     public List<TouristTravelLogDto> getTouristTravelHistory(Long touristId) {

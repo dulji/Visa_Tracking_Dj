@@ -38,55 +38,31 @@ public class HotelController {
 
     @PostMapping
     @PreAuthorize("hasAnyRole('HOTEL_STAFF', 'ADMIN')")
-    public ResponseEntity<Page<HotelDto>> createHotel(
-            @RequestBody HotelDto dto,
-            @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
-            @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize,
-            @RequestParam(value = "sortBy", defaultValue = "hotelId", required = false) String sortBy,
-            @RequestParam(value = "sortDir", defaultValue = "asc", required = false) String sortDir,
-            Sort sort){
-        Page<HotelDto> updatedPage = hotelService.createHotel(dto, pageNo, pageSize, sortBy, sortDir);
-        return new ResponseEntity<>(updatedPage, HttpStatus.CREATED);
+    public ResponseEntity<HotelDto> createHotel(@RequestBody HotelDto dto){
+       HotelDto createdHotel = hotelService.createHotel(dto);
+       return new ResponseEntity<>(createdHotel, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
     @PreAuthorize("hasAnyRole('HOTEL_STAFF', 'ADMIN')")
-    public ResponseEntity<Page<HotelDto>> updateHotel(
-            @PathVariable("id") Integer hotelId,
-            @RequestBody HotelDto dto,
-            @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
-            @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize,
-            @RequestParam(value = "sortBy", defaultValue = "hotelId", required = false) String sortBy,
-            @RequestParam(value = "sortDir", defaultValue = "asc", required = false) String sortDir
-    ){
-        Page<HotelDto> updatedPage = hotelService.updateHotel(hotelId, dto, pageNo, pageSize, sortBy, sortDir);
-        return ResponseEntity.ok(updatedPage);
+    public ResponseEntity<HotelDto> updateHotel(@PathVariable("id") Integer hotelId, @RequestBody HotelDto dto){
+        HotelDto updatedHotel = hotelService.updateHotel(hotelId, dto);
+        return ResponseEntity.ok(updatedHotel);
     }
 
     @PatchMapping("/{id}")
     @PreAuthorize("hasAnyRole('HOTEL_STAFF', 'ADMIN')")
-    public ResponseEntity<Page<HotelDto>> patchComplaint(
+    public ResponseEntity<HotelDto> patchHotel(
             @PathVariable("id") Integer hotelId,
-            @RequestBody HotelDto dto,
-            @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
-            @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize,
-            @RequestParam(value = "sortBy", defaultValue = "hotelId", required = false) String sortBy,
-            @RequestParam(value = "sortDir", defaultValue = "asc", required = false) String sortDir
-    ){
-        Page<HotelDto> updatedPage = hotelService.patchHotel(hotelId, dto, pageNo, pageSize, sortBy, sortDir);
-        return ResponseEntity.ok(updatedPage);
+            @RequestBody HotelDto dto){
+       HotelDto updatedHotel = hotelService.patchHotel(hotelId, dto);
+       return ResponseEntity.ok(updatedHotel);
     }
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAnyRole('HOTEL_STAFF', 'ADMIN')")
-    public ResponseEntity<Page<HotelDto>> deleteHotel(
-            @PathVariable("id") Integer hotelId,
-            @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
-            @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize,
-            @RequestParam(value = "sortBy", defaultValue = "hotelId", required = false) String sortBy,
-            @RequestParam(value = "sortDir", defaultValue = "asc", required = false) String sortDir
-    ){
-        Page<HotelDto> updatedPage = hotelService.deleteHotel(hotelId, pageNo, pageSize, sortBy, sortDir);
-        return ResponseEntity.ok(updatedPage);
+    public ResponseEntity<Void> deleteHotel(@PathVariable("id") Integer hotelId){
+        hotelService.deleteHotel(hotelId);
+        return ResponseEntity.noContent().build();
     }
 }

@@ -72,16 +72,16 @@ public class ComplaintService  {
         return convertToDto(entity);
     }
 
-    public Page<ComplaintDto> createComplaint(ComplaintDto dto, int pageNo, int pageSize, String sortBy, String sortDir){
+    public ComplaintDto createComplaint(ComplaintDto dto){
         ComplaintEntity entity = convertToEntity(dto);
         entity.setComplaintId(null);
 
-        complaintRepository.save(entity);
-        return getAllComplaints(pageNo, pageSize, sortBy, sortDir);
+        ComplaintEntity createdEntity = complaintRepository.save(entity);
+        return convertToDto(createdEntity);
 
     }
 
-    public Page<ComplaintDto> updateComplaint(Integer complaintId, ComplaintDto dto, int pageNo, int pageSize, String sortBy, String sortDir){
+    public ComplaintDto updateComplaint(Integer complaintId, ComplaintDto dto){
         ComplaintEntity existingEntity = complaintRepository.findById(complaintId)
                 .orElseThrow(()-> new RuntimeException("Cannot find complaint with Id : " + complaintId));
         existingEntity.setDescription(dto.getDescription());
@@ -92,13 +92,13 @@ public class ComplaintService  {
             existingEntity.setAgencyId(agency);
         }
 
-        complaintRepository.save(existingEntity);
+        ComplaintEntity savedEntity = complaintRepository.save(existingEntity);
 
-        return getAllComplaints(pageNo, pageSize, sortBy, sortDir);
+        return convertToDto(savedEntity);
 
     }
 
-    public Page<ComplaintDto> partialUpdateComplaint(Integer complaintId, ComplaintDto dto, int pageNo, int pageSize, String sortBy, String sortDir){
+    public ComplaintDto partialUpdateComplaint(Integer complaintId, ComplaintDto dto){
         ComplaintEntity existingEntity = complaintRepository.findById(complaintId).orElseThrow(() -> new NoSuchElementException("Cannot partially update. Complaint record not found with ID: " + complaintId));
 
         if(dto.getDescription() != null){
@@ -112,21 +112,19 @@ public class ComplaintService  {
             existingEntity.setAgencyId(agency);
         }
 
-        complaintRepository.save(existingEntity);
+        ComplaintEntity savedEntity = complaintRepository.save(existingEntity);
 
-        return getAllComplaints(pageNo, pageSize, sortBy, sortDir);
+        return convertToDto(savedEntity);
 
     }
 
-    public Page<ComplaintDto> deleteComplaint(Integer complaintId, int pageNo, int pageSize, String sortBy, String sortDir){
+    public void deleteComplaint(Integer complaintId){
         if(!complaintRepository.existsById(complaintId)){
             throw new RuntimeException("Cannot delete since complaint record not found with Id : " + complaintId);
 
         }
 
         complaintRepository.deleteById(complaintId);
-
-        return getAllComplaints(pageNo, pageSize, sortBy, sortDir);
     }
 
 
