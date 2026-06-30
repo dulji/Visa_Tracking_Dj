@@ -57,10 +57,10 @@ public class AgencyRatingController {
 
     @PatchMapping("/{id}")
     @PreAuthorize("hasAnyRole('TRAVEL_AGENCY_STAFF', 'ADMIN')")
-    public ResponseEntity<Page<AgencyRatingDto>> partialUpdateAgencyRating(
+    public ResponseEntity<AgencyRatingDto> partialUpdateAgencyRating(
             @PathVariable Integer agencyRatingId,
             @RequestBody AgencyRatingDto dto){
-        AgencyRatingDto updatedRating = agencyRatingService.partialUpdateAgencyRating(ratingId, dto);
+        AgencyRatingDto updatedRating = agencyRatingService.partialUpdateAgencyRating(agencyRatingId, dto);
         return ResponseEntity.ok(updatedRating);
     }
 

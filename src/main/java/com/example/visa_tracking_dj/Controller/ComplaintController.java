@@ -51,7 +51,7 @@ public class ComplaintController {
     public ResponseEntity<ComplaintDto> updateComplaint(
             @PathVariable Integer complaintId,
             @RequestBody ComplaintDto dto){
-        ComplaintDto updatedComplaint = complaintService.updateComplaint(id, dto);
+        ComplaintDto updatedComplaint = complaintService.updateComplaint(complaintId, dto);
         return ResponseEntity.ok(updatedComplaint);
     }
 

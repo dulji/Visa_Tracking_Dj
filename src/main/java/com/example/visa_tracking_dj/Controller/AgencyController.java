@@ -101,7 +101,7 @@ public class AgencyController {
     public ResponseEntity<AgencyDto> updateAgency(
             @PathVariable Integer agencyId,
             @RequestBody AgencyDto agencyDto){
-        AgencyDto updatedAgency = agencyService.createAgency(agencyId, agencyDto);
+        AgencyDto updatedAgency = agencyService.updateAgency(agencyId, agencyDto);
         return ResponseEntity.ok(updatedAgency);
     }
 
@@ -116,7 +116,7 @@ public class AgencyController {
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAnyRole('TRAVEL_AGENCY_STAFF', 'ADMIN')")
-    public ResponseEntity<Page<AgencyDto>> deleteAgency(
+    public ResponseEntity<Void> deleteAgency(
             @PathVariable("id") Integer agencyId){
         agencyService.deleteAgency(agencyId);
         return ResponseEntity.noContent().build();
