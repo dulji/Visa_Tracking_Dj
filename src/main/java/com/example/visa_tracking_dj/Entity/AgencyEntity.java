@@ -20,6 +20,7 @@ public class AgencyEntity {
     private String agencyName;
     private Integer licenseNumber;
     private Boolean status;
+    private String email;
 
 
 }
