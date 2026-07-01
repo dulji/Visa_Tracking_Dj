@@ -76,10 +76,10 @@ public class HotelCheckInService {
     }
 
     public void assignTouristToHotel(Integer hotelId, Long touristId){
-        HotelEntity hotel = hotelRepository.findById(hotelId).orElseThrow(() -> new RuntimeException("Hotel record cannot be found with Id : " + hotelId));
+        HotelEntity hotel = hotelRepository.findById(hotelId).orElseThrow(() -> new org.springframework.web.server.ResponseStatusException(org.springframework.http.HttpStatus.BAD_REQUEST, "Hotel record cannot be found with Id : " + hotelId));
 
         if(hotelCheckInRepository.existsByTouristId(touristId)){
-            throw new RuntimeException("This tourist is already checked into a hotel room.");
+            throw new org.springframework.web.server.ResponseStatusException(org.springframework.http.HttpStatus.BAD_REQUEST, "This tourist is already checked into a hotel room.");
         }
 
         HotelCheckInEntity checkIn = new HotelCheckInEntity();
