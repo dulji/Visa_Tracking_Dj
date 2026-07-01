@@ -1,4 +1,4 @@
-package com.example.visa_tracking_dj.Controller;
+﻿package com.example.visa_tracking_dj.Controller;
 
 import com.example.visa_tracking_dj.Dto.HotelDto;
 import com.example.visa_tracking_dj.Service.HotelService;
@@ -19,7 +19,7 @@ public class HotelController {
     private HotelService hotelService;
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('HOTEL_STAFF', 'ADMIN', 'TOURIST_POLICE')")
+    @PreAuthorize("hasAnyRole('IMMIGRATION_OFFICER', 'HOTEL_STAFF', 'ADMIN', 'TOURIST_POLICE')")
     public ResponseEntity<Page<HotelDto>> getAllHotels(
             @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
             @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize,
@@ -31,27 +31,27 @@ public class HotelController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyRole('HOTEL_STAFF', 'ADMIN', 'TOURIST_POLICE')")
+    @PreAuthorize("hasAnyRole('IMMIGRATION_OFFICER', 'HOTEL_STAFF', 'ADMIN', 'TOURIST_POLICE')")
     public ResponseEntity<HotelDto> getHotelById(@PathVariable("id") Integer hotelId){
         return ResponseEntity.ok(hotelService.getHotelById(hotelId));
     }
 
     @PostMapping
-    @PreAuthorize("hasAnyRole('HOTEL_STAFF', 'ADMIN')")
+    @PreAuthorize("hasAnyRole('IMMIGRATION_OFFICER', 'HOTEL_STAFF', 'ADMIN')")
     public ResponseEntity<HotelDto> createHotel(@RequestBody HotelDto dto){
        HotelDto createdHotel = hotelService.createHotel(dto);
        return new ResponseEntity<>(createdHotel, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasAnyRole('HOTEL_STAFF', 'ADMIN')")
+    @PreAuthorize("hasAnyRole('IMMIGRATION_OFFICER', 'HOTEL_STAFF', 'ADMIN')")
     public ResponseEntity<HotelDto> updateHotel(@PathVariable("id") Integer hotelId, @RequestBody HotelDto dto){
         HotelDto updatedHotel = hotelService.updateHotel(hotelId, dto);
         return ResponseEntity.ok(updatedHotel);
     }
 
     @PatchMapping("/{id}")
-    @PreAuthorize("hasAnyRole('HOTEL_STAFF', 'ADMIN')")
+    @PreAuthorize("hasAnyRole('IMMIGRATION_OFFICER', 'HOTEL_STAFF', 'ADMIN')")
     public ResponseEntity<HotelDto> patchHotel(
             @PathVariable("id") Integer hotelId,
             @RequestBody HotelDto dto){
@@ -60,7 +60,7 @@ public class HotelController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAnyRole('HOTEL_STAFF', 'ADMIN')")
+    @PreAuthorize("hasAnyRole('IMMIGRATION_OFFICER', 'HOTEL_STAFF', 'ADMIN')")
     public ResponseEntity<Void> deleteHotel(@PathVariable("id") Integer hotelId){
         hotelService.deleteHotel(hotelId);
         return ResponseEntity.noContent().build();

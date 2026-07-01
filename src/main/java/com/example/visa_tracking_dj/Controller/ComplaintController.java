@@ -1,4 +1,4 @@
-package com.example.visa_tracking_dj.Controller;
+﻿package com.example.visa_tracking_dj.Controller;
 
 import com.example.visa_tracking_dj.Dto.ComplaintDto;
 import com.example.visa_tracking_dj.Repository.ComplaintRepository;
@@ -19,7 +19,7 @@ public class ComplaintController {
     private ComplaintService complaintService;
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('TOURIST_POLICE', 'ADMIN')")
+    @PreAuthorize("hasAnyRole('IMMIGRATION_OFFICER', 'TOURIST_POLICE', 'ADMIN')")
     public ResponseEntity<Page<ComplaintDto>> getAllComplaints(
             @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
             @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize,
@@ -31,13 +31,13 @@ public class ComplaintController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyRole('TOURIST_POLICE', 'ADMIN')")
+    @PreAuthorize("hasAnyRole('IMMIGRATION_OFFICER', 'TOURIST_POLICE', 'ADMIN')")
     public ResponseEntity<ComplaintDto> getComplaintById(@PathVariable Integer complainId){
         return ResponseEntity.ok(complaintService.getComplaintById(complainId));
     }
 
     @PostMapping
-    @PreAuthorize("hasAnyRole('HOTEL_STAFF', 'TRAVEL_AGENCY_STAFF', 'ADMIN')")
+    @PreAuthorize("hasAnyRole('IMMIGRATION_OFFICER', 'HOTEL_STAFF', 'TRAVEL_AGENCY_STAFF', 'ADMIN')")
     public ResponseEntity<ComplaintDto> createComplaint(
             @RequestBody ComplaintDto dto){
         ComplaintDto createdComplaint = complaintService.createComplaint(dto);
@@ -47,7 +47,7 @@ public class ComplaintController {
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasAnyRole('TOURIST_POLICE', 'ADMIN')")
+    @PreAuthorize("hasAnyRole('IMMIGRATION_OFFICER', 'TOURIST_POLICE', 'ADMIN')")
     public ResponseEntity<ComplaintDto> updateComplaint(
             @PathVariable Integer complaintId,
             @RequestBody ComplaintDto dto){
@@ -56,7 +56,7 @@ public class ComplaintController {
     }
 
     @PatchMapping("/{id}")
-    @PreAuthorize("hasAnyRole('TOURIST_POLICE', 'ADMIN')")
+    @PreAuthorize("hasAnyRole('IMMIGRATION_OFFICER', 'TOURIST_POLICE', 'ADMIN')")
     public ResponseEntity<ComplaintDto> patchComplaint(
             @PathVariable Integer complaintId,
             @RequestBody ComplaintDto dto){
@@ -65,7 +65,7 @@ public class ComplaintController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAnyRole('TOURIST_POLICE', 'ADMIN')")
+    @PreAuthorize("hasAnyRole('IMMIGRATION_OFFICER', 'TOURIST_POLICE', 'ADMIN')")
     public ResponseEntity<Void> deleteComplaint(
             @PathVariable Integer complaintId){
         complaintService.deleteComplaint(complaintId);

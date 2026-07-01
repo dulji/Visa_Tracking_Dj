@@ -1,4 +1,4 @@
-package com.example.visa_tracking_dj.Controller;
+﻿package com.example.visa_tracking_dj.Controller;
 
 import com.example.visa_tracking_dj.Dto.HotelCheckInDto;
 import com.example.visa_tracking_dj.Dto.HotelDto;
@@ -25,7 +25,7 @@ public class HotelCheckInController {
     private HotelService hotelService;
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('HOTEL_STAFF', 'ADMIN', 'TOURIST_POLICE')")
+    @PreAuthorize("hasAnyRole('IMMIGRATION_OFFICER', 'HOTEL_STAFF', 'ADMIN', 'TOURIST_POLICE')")
     public ResponseEntity<Page<HotelCheckInDto>> getAllHotelCheckIns(
             @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
             @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize,
@@ -36,19 +36,19 @@ public class HotelCheckInController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyRole('HOTEL_STAFF', 'ADMIN', 'TOURIST_POLICE')")
+    @PreAuthorize("hasAnyRole('IMMIGRATION_OFFICER', 'HOTEL_STAFF', 'ADMIN', 'TOURIST_POLICE')")
     public ResponseEntity<HotelCheckInDto> getHotelCheckInById(@PathVariable("id") Integer hotelCheckInId){
         return ResponseEntity.ok(hotelCheckInService.getHotelCheckInById(hotelCheckInId));
     }
 
     @GetMapping("/{hotelId}/tourists")
-    @PreAuthorize("hasAnyRole('HOTEL_STAFF', 'ADMIN', 'TOURIST_POLICE')")
+    @PreAuthorize("hasAnyRole('IMMIGRATION_OFFICER', 'HOTEL_STAFF', 'ADMIN', 'TOURIST_POLICE')")
     public ResponseEntity<List<Long>> getCheckedInTourists(@PathVariable Integer hotelId){
         return  ResponseEntity.ok(hotelCheckInService.getTouristIdsByHotel(hotelId));
     }
 
     @PostMapping
-    @PreAuthorize("hasAnyRole('HOTEL_STAFF', 'ADMIN')")
+    @PreAuthorize("hasAnyRole('IMMIGRATION_OFFICER', 'HOTEL_STAFF', 'ADMIN')")
     public ResponseEntity<HotelCheckInDto> createHotelCheckIn(
             @RequestBody HotelCheckInDto dto){
         HotelCheckInDto createdCheckIn = hotelCheckInService.createHotelCheckIn(dto);
@@ -57,7 +57,7 @@ public class HotelCheckInController {
     }
 
     @PostMapping("/{hotelId}/assign-tourist/{touristId}")
-    @PreAuthorize("hasAnyRole('HOTEL_STAFF', 'ADMIN')")
+    @PreAuthorize("hasAnyRole('IMMIGRATION_OFFICER', 'HOTEL_STAFF', 'ADMIN')")
     public ResponseEntity<String> assignTourist(
             @PathVariable Integer hotelId,
             @PathVariable Long touristId){
@@ -69,7 +69,7 @@ public class HotelCheckInController {
 
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasAnyRole('HOTEL_STAFF', 'ADMIN')")
+    @PreAuthorize("hasAnyRole('IMMIGRATION_OFFICER', 'HOTEL_STAFF', 'ADMIN')")
     public ResponseEntity<HotelCheckInDto> updateHotelCheckIn(
             @PathVariable Integer hotelCheckInId,
             @RequestBody HotelCheckInDto dto){
@@ -78,7 +78,7 @@ public class HotelCheckInController {
     }
 
     @PatchMapping("/{id}")
-    @PreAuthorize("hasAnyRole('HOTEL_STAFF', 'ADMIN')")
+    @PreAuthorize("hasAnyRole('IMMIGRATION_OFFICER', 'HOTEL_STAFF', 'ADMIN')")
     public ResponseEntity<HotelCheckInDto> partialUpdateCheckIn(
             @PathVariable Integer hotelCheckInId,
             @RequestBody HotelCheckInDto dto){
@@ -87,7 +87,7 @@ public class HotelCheckInController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAnyRole('HOTEL_STAFF', 'ADMIN')")
+    @PreAuthorize("hasAnyRole('IMMIGRATION_OFFICER', 'HOTEL_STAFF', 'ADMIN')")
     public ResponseEntity<Void> deleteCheckIn(
             @PathVariable Integer hotelCheckInId){
         hotelCheckInService.deleteCheckIn(hotelCheckInId);
@@ -95,7 +95,7 @@ public class HotelCheckInController {
     }
 
     @GetMapping("/tourist/{touristId}/history")
-    @PreAuthorize("hasAnyRole('HOTEL_STAFF', 'ADMIN', 'TOURIST_POLICE')")
+    @PreAuthorize("hasAnyRole('IMMIGRATION_OFFICER', 'HOTEL_STAFF', 'ADMIN', 'TOURIST_POLICE')")
     public ResponseEntity<List<com.example.visa_tracking_dj.Dto.TouristTravelLogDto>> getTouristTravelHistory(@PathVariable Long touristId) {
         return ResponseEntity.ok(hotelCheckInService.getTouristTravelHistory(touristId));
     }

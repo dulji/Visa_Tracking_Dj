@@ -1,4 +1,4 @@
-package com.example.visa_tracking_dj.Controller;
+﻿package com.example.visa_tracking_dj.Controller;
 
 import com.example.visa_tracking_dj.Dto.AgencyRatingDto;
 import com.example.visa_tracking_dj.Service.AgencyRatingService;
@@ -20,7 +20,7 @@ public class AgencyRatingController {
     }
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('TRAVEL_AGENCY_STAFF', 'ADMIN', 'TOURIST_POLICE')")
+    @PreAuthorize("hasAnyRole('IMMIGRATION_OFFICER', 'TRAVEL_AGENCY_STAFF', 'ADMIN', 'TOURIST_POLICE')")
     public ResponseEntity<Page<AgencyRatingDto>> getAllRatings(
             @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
             @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize,
@@ -32,13 +32,13 @@ public class AgencyRatingController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyRole('TRAVEL_AGENCY_STAFF', 'ADMIN', 'TOURIST_POLICE')")
+    @PreAuthorize("hasAnyRole('IMMIGRATION_OFFICER', 'TRAVEL_AGENCY_STAFF', 'ADMIN', 'TOURIST_POLICE')")
     public ResponseEntity<AgencyRatingDto> getRatingById(@PathVariable Integer ratingId){
         return ResponseEntity.ok(agencyRatingService.getRatingById(ratingId));
     }
 
     @PostMapping
-    @PreAuthorize("hasAnyRole('TRAVEL_AGENCY_STAFF', 'ADMIN')")
+    @PreAuthorize("hasAnyRole('IMMIGRATION_OFFICER', 'TRAVEL_AGENCY_STAFF', 'ADMIN')")
     public ResponseEntity<AgencyRatingDto> createRating(
             @RequestBody AgencyRatingDto dto){
         AgencyRatingDto createdRating = agencyRatingService.createRating(dto);
@@ -47,7 +47,7 @@ public class AgencyRatingController {
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasAnyRole('TRAVEL_AGENCY_STAFF', 'ADMIN')")
+    @PreAuthorize("hasAnyRole('IMMIGRATION_OFFICER', 'TRAVEL_AGENCY_STAFF', 'ADMIN')")
     public ResponseEntity<AgencyRatingDto> updateRating(
             @PathVariable Integer ratingId,
             @RequestBody AgencyRatingDto dto){
@@ -56,7 +56,7 @@ public class AgencyRatingController {
     }
 
     @PatchMapping("/{id}")
-    @PreAuthorize("hasAnyRole('TRAVEL_AGENCY_STAFF', 'ADMIN')")
+    @PreAuthorize("hasAnyRole('IMMIGRATION_OFFICER', 'TRAVEL_AGENCY_STAFF', 'ADMIN')")
     public ResponseEntity<AgencyRatingDto> partialUpdateAgencyRating(
             @PathVariable Integer agencyRatingId,
             @RequestBody AgencyRatingDto dto){
@@ -65,7 +65,7 @@ public class AgencyRatingController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAnyRole('TRAVEL_AGENCY_STAFF', 'ADMIN')")
+    @PreAuthorize("hasAnyRole('IMMIGRATION_OFFICER', 'TRAVEL_AGENCY_STAFF', 'ADMIN')")
     public ResponseEntity<Void> deleteRating(
             @PathVariable Integer ratingId){
         agencyRatingService.deleteRating(ratingId);

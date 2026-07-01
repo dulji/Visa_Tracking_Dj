@@ -1,4 +1,4 @@
-package com.example.visa_tracking_dj.Controller;
+﻿package com.example.visa_tracking_dj.Controller;
 
 import com.example.visa_tracking_dj.Dto.AgencyDto;
 import com.example.visa_tracking_dj.Entity.AgencyEntity;
@@ -26,7 +26,7 @@ public class AgencyController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyRole('TRAVEL_AGENCY_STAFF', 'ADMIN', 'TOURIST_POLICE')")
+    @PreAuthorize("hasAnyRole('IMMIGRATION_OFFICER', 'TRAVEL_AGENCY_STAFF', 'ADMIN', 'TOURIST_POLICE')")
     public ResponseEntity<AgencyDto> getAgencyById(@PathVariable("id") Integer agencyId){
         AgencyDto agencyDto = agencyService.getAgencyById(agencyId);
         return ResponseEntity.ok(agencyDto);
@@ -35,7 +35,7 @@ public class AgencyController {
 
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('TRAVEL_AGENCY_STAFF', 'ADMIN', 'TOURIST_POLICE')")
+    @PreAuthorize("hasAnyRole('IMMIGRATION_OFFICER', 'TRAVEL_AGENCY_STAFF', 'ADMIN', 'TOURIST_POLICE')")
     public ResponseEntity<Page<AgencyDto>> getAllAgencies(
             @RequestParam(value = "pageNo", defaultValue = "0", required = false)int pageNo,
             @RequestParam(value = "pageSize", defaultValue = "10", required = false)int pageSize,
@@ -48,7 +48,7 @@ public class AgencyController {
     }
     //Changes
     @GetMapping("/{agencyId}/tourists")
-    @PreAuthorize("hasAnyRole('TRAVEL_AGENCY_STAFF', 'ADMIN', 'TOURIST_POLICE')")
+    @PreAuthorize("hasAnyRole('IMMIGRATION_OFFICER', 'TRAVEL_AGENCY_STAFF', 'ADMIN', 'TOURIST_POLICE')")
     public ResponseEntity<List<Long>> getAssignedTourists(@PathVariable("agencyId") Integer agencyId){
         return ResponseEntity.ok(agencyService.getTouristsByAgency(agencyId));
     }
@@ -56,7 +56,7 @@ public class AgencyController {
 
 
     @PostMapping
-    @PreAuthorize("hasAnyRole('TRAVEL_AGENCY_STAFF', 'ADMIN')")
+    @PreAuthorize("hasAnyRole('IMMIGRATION_OFFICER', 'TRAVEL_AGENCY_STAFF', 'ADMIN')")
     public ResponseEntity<AgencyDto> createAgency(
             @RequestBody AgencyDto agencyDto){
         AgencyDto createdAgency = agencyService.createAgency(agencyDto);
@@ -65,7 +65,7 @@ public class AgencyController {
     }
 
     @PostMapping("/{agencyId}/assign-tourist/{touristId}")
-    @PreAuthorize("hasAnyRole('TRAVEL_AGENCY_STAFF', 'ADMIN')")
+    @PreAuthorize("hasAnyRole('IMMIGRATION_OFFICER', 'TRAVEL_AGENCY_STAFF', 'ADMIN')")
     public ResponseEntity<String> assignTourist(
             @PathVariable("agencyId") Integer agencyId,
             @PathVariable("touristId") Long touristId){
@@ -80,7 +80,7 @@ public class AgencyController {
     }
 
     @PutMapping("/{agencyId}/reassign-tourist/{touristId}")
-    @PreAuthorize("hasAnyRole('TRAVEL_AGENCY_STAFF', 'ADMIN')")
+    @PreAuthorize("hasAnyRole('IMMIGRATION_OFFICER', 'TRAVEL_AGENCY_STAFF', 'ADMIN')")
     public ResponseEntity<String> reassignTourist(
             @PathVariable("agencyId") Integer agencyId,
             @PathVariable("touristId") Long touristId){
@@ -97,7 +97,7 @@ public class AgencyController {
 
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasAnyRole('TRAVEL_AGENCY_STAFF', 'ADMIN')")
+    @PreAuthorize("hasAnyRole('IMMIGRATION_OFFICER', 'TRAVEL_AGENCY_STAFF', 'ADMIN')")
     public ResponseEntity<AgencyDto> updateAgency(
             @PathVariable("id") Integer agencyId,
             @RequestBody AgencyDto agencyDto){
@@ -106,7 +106,7 @@ public class AgencyController {
     }
 
     @PatchMapping("/{id}")
-    @PreAuthorize("hasAnyRole('TRAVEL_AGENCY_STAFF', 'ADMIN')")
+    @PreAuthorize("hasAnyRole('IMMIGRATION_OFFICER', 'TRAVEL_AGENCY_STAFF', 'ADMIN')")
     public ResponseEntity<AgencyDto> partialUpdateAgency(
             @PathVariable("id") Integer agencyId,
             @RequestBody AgencyDto dto){
@@ -115,7 +115,7 @@ public class AgencyController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAnyRole('TRAVEL_AGENCY_STAFF', 'ADMIN')")
+    @PreAuthorize("hasAnyRole('IMMIGRATION_OFFICER', 'TRAVEL_AGENCY_STAFF', 'ADMIN')")
     public ResponseEntity<Void> deleteAgency(
             @PathVariable("id") Integer agencyId){
         agencyService.deleteAgency(agencyId);
