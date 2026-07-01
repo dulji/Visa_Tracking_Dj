@@ -36,7 +36,8 @@ public class AgencyService{
                 entity.getAgencyId(),
                 entity.getAgencyName(),
                 entity.getLicenseNumber(),
-                entity.getStatus()
+                entity.getStatus(),
+                entity.getEmail()
         );
     }
     private AgencyEntity convertToEntity(AgencyDto dto){
@@ -45,6 +46,7 @@ public class AgencyService{
         entity.setAgencyName(dto.getAgencyName());
         entity.setLicenseNumber(dto.getLicenseNumber());
         entity.setStatus(dto.getStatus());
+        entity.setEmail(dto.getEmail());
         return entity;
     }
 
