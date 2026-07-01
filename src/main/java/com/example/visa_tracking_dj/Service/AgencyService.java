@@ -93,15 +93,16 @@ public class AgencyService{
     }
 
     public void deleteAgency(Integer agencyId) {
+        AgencyEntity agency = agencyRepository.findById(agencyId)
+                .orElseThrow(() -> new RuntimeException("Cannot delete, agency with id : " + agencyId + " not found"));
 
-        if (!agencyRepository.existsById(agencyId)) {
-            throw new RuntimeException("Cannot delete, agency with id : " + agencyId + " not found");
-
+    
+        List<AgencyTouristMappingEntity> mappings = mappingRepository.findByAgency(agency);
+        if (!mappings.isEmpty()) {
+            mappingRepository.deleteAll(mappings);
         }
 
         agencyRepository.deleteById(agencyId);
-
-
     }
 
     public AgencyDto partialUpdateAgency(Integer agencyId, AgencyDto dto){
