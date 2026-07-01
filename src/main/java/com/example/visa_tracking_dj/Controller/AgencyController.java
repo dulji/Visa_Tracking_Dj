@@ -49,7 +49,7 @@ public class AgencyController {
     //Changes
     @GetMapping("/{agencyId}/tourists")
     @PreAuthorize("hasAnyRole('TRAVEL_AGENCY_STAFF', 'ADMIN', 'TOURIST_POLICE')")
-    public ResponseEntity<List<Long>> getAssignedTourists(@PathVariable Integer agencyId){
+    public ResponseEntity<List<Long>> getAssignedTourists(@PathVariable("agencyId") Integer agencyId){
         return ResponseEntity.ok(agencyService.getTouristsByAgency(agencyId));
     }
 
@@ -99,7 +99,7 @@ public class AgencyController {
     @PutMapping("/{id}")
     @PreAuthorize("hasAnyRole('TRAVEL_AGENCY_STAFF', 'ADMIN')")
     public ResponseEntity<AgencyDto> updateAgency(
-            @PathVariable Integer agencyId,
+            @PathVariable("id") Integer agencyId,
             @RequestBody AgencyDto agencyDto){
         AgencyDto updatedAgency = agencyService.updateAgency(agencyId, agencyDto);
         return ResponseEntity.ok(updatedAgency);
@@ -108,7 +108,7 @@ public class AgencyController {
     @PatchMapping("/{id}")
     @PreAuthorize("hasAnyRole('TRAVEL_AGENCY_STAFF', 'ADMIN')")
     public ResponseEntity<AgencyDto> partialUpdateAgency(
-            @PathVariable Integer agencyId,
+            @PathVariable("id") Integer agencyId,
             @RequestBody AgencyDto dto){
         AgencyDto updatedAgency = agencyService.partialUpdateAgency(agencyId, dto);
         return ResponseEntity.ok(updatedAgency);
