@@ -10,7 +10,8 @@ public class CorsConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("http://localhost:5173", "http://localhost:3000", "https://frontend.panthiya.edu.lk", "https://panthiya.edu.lk", "https://dea.panthiya.edu.lk")
+                 .allowedOrigins("http://localhost:5173", "http://localhost:3000", "https://frontend.panthiya.edu.lk", "https://panthiya.edu.lk", "https://dea.panthiya.edu.lk/")
+                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // Allow these HTTP methods
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH")
                 .allowedHeaders("*")
                 .allowCredentials(true);
